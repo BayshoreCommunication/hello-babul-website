@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import CustomModal from "./CustomModal";
 
 export default function Team() {
   const [open, setOpen] = useState(false);
@@ -90,72 +91,63 @@ export default function Team() {
 
       {/* ================= MODAL ================= */}
       {open && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
-          <div className="relative w-full max-w-5xl rounded-2xl overflow-hidden bg-[#0b1f1f]">
+        <CustomModal
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          title=" স্বেচ্ছাসেবক আবেদন ফর্ম"
+        >
+          {/* Form */}
+          {/* ================= FORM ================= */}
+          <form className="px-6 py-3 flex flex-col gap-6 text-white">
+            {[
+              "পূর্ণ নাম",
+              "পিতার নাম",
+              "মাতার নাম",
+              "জন্মতারিখ",
+              "মোবাইল নম্বর",
+              "শিক্ষাগত যোগ্যতা",
+              "এরিয়া / ওয়ার্ড",
+            ].map((label, i) => (
+              <div
+                key={i}
+                className="flex flex-col md:flex-row gap-4 items-center"
+              >
+                <label className="md:w-1/4 text-lg">{label}</label>
+                <input
+                  type="text"
+                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
+                />
+              </div>
+            ))}
 
-            {/* Close button */}
-            <button
-              onClick={() => setOpen(false)}
-              className="absolute top-4 right-4 text-white text-2xl"
-            >
-              ✕
-            </button>
-
-            {/* Header */}
-            <div className="bg-[#0a4d3a] py-4 text-center">
-              <h2 className="text-xl md:text-2xl font-semibold text-yellow-300">
-                স্বেচ্ছাসেবক আবেদন ফর্ম
-              </h2>
+            {/* Image Upload */}
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+              <label className="md:w-1/4 text-lg">ছবি</label>
+              <label className="cursor-pointer bg-gray-200 text-black px-6 py-3 rounded-lg">
+                Upload Image
+                <input type="file" className="hidden" />
+              </label>
             </div>
 
-            {/* ================= FORM ================= */}
-            <form className="p-6 md:p-10 flex flex-col gap-6 text-white max-h-[80vh] overflow-y-auto">
+            {/* Declaration */}
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                className="mt-1 h-5 w-5 accent-yellow-400"
+              />
+              <p>
+                আমি স্বেচ্ছাসেবক হিসেবে দায়িত্বশীলভাবে কাজ করার অঙ্গীকার করছি
+              </p>
+            </div>
 
-              {[
-                "পূর্ণ নাম",
-                "পিতার নাম",
-                "মাতার নাম",
-                "জন্মতারিখ",
-                "মোবাইল নম্বর",
-                "শিক্ষাগত যোগ্যতা",
-                "এরিয়া / ওয়ার্ড",
-              ].map((label, i) => (
-                <div key={i} className="flex flex-col md:flex-row gap-4 items-center">
-                  <label className="md:w-1/4 text-lg">{label}</label>
-                  <input
-                    type="text"
-                    className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
-                  />
-                </div>
-              ))}
-
-              {/* Image Upload */}
-              <div className="flex flex-col md:flex-row gap-4 items-center">
-                <label className="md:w-1/4 text-lg">ছবি</label>
-                <label className="cursor-pointer bg-gray-200 text-black px-6 py-3 rounded-lg">
-                  Upload Image
-                  <input type="file" className="hidden" />
-                </label>
-              </div>
-
-              {/* Declaration */}
-              <div className="flex items-start gap-3">
-                <input type="checkbox" className="mt-1 h-5 w-5 accent-yellow-400" />
-                <p>
-                  আমি স্বেচ্ছাসেবক হিসেবে দায়িত্বশীলভাবে কাজ করার অঙ্গীকার করছি
-                </p>
-              </div>
-
-              {/* Submit */}
-              <div className="flex justify-center pt-6">
-                <button className="bg-yellow-400 text-black font-semibold px-16 py-3 rounded-xl hover:bg-yellow-300 transition">
-                  জমা দিন
-                </button>
-              </div>
-
-            </form>
-          </div>
-        </div>
+            {/* Submit */}
+            <div className="flex justify-center pt-6">
+              <button className="bg-yellow-400 text-black font-semibold px-16 py-3 rounded-xl hover:bg-yellow-300 transition">
+                জমা দিন
+              </button>
+            </div>
+          </form>
+        </CustomModal>
       )}
     </>
   );
