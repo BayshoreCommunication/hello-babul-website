@@ -3,11 +3,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 
-
 export const metadata: Metadata = {
   title: "Babul Website",
   description: "babul Website",
-  metadataBase: new URL("https://mccullochlawpa-website.vercel.app"),
+  metadataBase: new URL("https://hellobabul.vercel.app/"),
   alternates: {
     canonical: "/",
     languages: {
