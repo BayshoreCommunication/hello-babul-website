@@ -1,16 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
-
+import "swiper/css/pagination";
 import Image from "next/image";
 
 const opinions = [
   {
     id: 1,
-    desc: "ভোগান্তি ও দুর্নীতি প্রতিরোধে আমরা প্রতিশ্রুতিবদ্ধ। সেবা সহজ, দ্রুত ও স্বচ্ছ করার জন্য সক্রিয়ভাবে কাজ করবো আপনার সমস্যা সমাধান আমাদের অগ্রাধিকার",
+    desc: "ভোগান্তি ও দুর্নীতি প্রতিরোধে আমরা প্রতিশ্রুতিবদ্ধ।ভোগান্তি ও দুর্নীতি প্রতিরোধে আমরা প্রতিশ্রুতিবদ্ধ। সেবা সহজ, দ্রুত ও স্বচ্ছ করার জন্য সক্রিয়ভাবে কাজ করবো আপনার সমস্যা সমাধান আমাদের অগ্রাধিকার",
     icon: "/image/opinion/img1.png",
     btn: "ভোগান্তি/ দুর্নীতি",
   },
@@ -59,66 +59,154 @@ const opinions = [
 ];
 
 export default function OpinionSlider() {
-  return (
-    <section className="w-full bg-[#F4F4F4] px-8 py-8 md:py-16">
-      <div className="max-w-[1640px] mx-auto">
-        {/* Heading */}
-        <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-[40px] font-bold text-gray-900">
-            আপনার মতামত নির্বাচন করুন
-          </h2>
-          <p className="text-gray-600 mt-4 text-base md:text-[20px]">
-            আপনার মতামত দিন — পরিচ্ছন্ন রাজনীতি আমাদের লক্ষ্য
-          </p>
-        </div>
+  const [open, setOpen] = useState(false);
+  const [label, setLabel] = useState("");
 
-        {/* Slider */}
-        <Swiper
-          modules={[Autoplay]}
-          spaceBetween={20}
-          navigation
-          autoplay={{
-            delay: 3000,          // 3 seconds
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          className="!pb-4"
-          breakpoints={{
-            0: { slidesPerView: 1 },
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-            1280: { slidesPerView: 4 },
-          }}
-        >
-          {opinions.map((item) => (
-            <SwiperSlide key={item.id} className="flex">
-              <div className="w-full h-full min-h-[270px] border border-gray-200 bg-white rounded-md p-6 flex flex-col text-center">
-                {/* Icon */}
-                <div className="flex justify-center mb-4">
+  return (
+    <>
+      {/* ================= SLIDER SECTION ================= */}
+      <section className="w-full bg-[#F4F4F4] px-8 py-8 md:py-16">
+        <div className="max-w-[1640px] mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-[40px] font-bold text-black">
+              আপনার মতামত নির্বাচন করুন
+            </h2>
+            <p className="text-gray-600 mt-4 md:text-[20px]">
+              আপনার মতামত দিন — পরিচ্ছন্ন রাজনীতি আমাদের লক্ষ্য
+            </p>
+          </div>
+
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            spaceBetween={20}
+            autoplay={{ delay: 3000 }}
+            pagination={{ clickable: true }}
+            className="opinion-swiper !pb-10"
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+              1280: { slidesPerView: 4 },
+            }}
+          >
+            {opinions.map((item) => (
+              <SwiperSlide key={item.id} className="flex">
+                <div className="w-full bg-white h-[280px] border rounded-md p-6 flex flex-col text-center">
                   <Image
                     src={item.icon}
                     alt={item.btn}
                     width={48}
                     height={48}
+                    className="mx-auto mb-4"
                   />
-                </div>
 
-                {/* Content */}
-                <div className="flex-grow">
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-sm text-gray-600 flex-grow">
                     {item.desc}
                   </p>
-                </div>
 
-                {/* Button */}
-                <button className="mt-6 w-full bg-[#31A3EA] text-white py-2 text-sm md:text-[20px] font-semibold rounded">
-                  {item.btn}
-                </button>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                  <button
+                    onClick={() => {
+                      setLabel(item.btn);
+                      setOpen(true);
+                    }}
+                    className="mt-6 bg-[#31A3EA] text-white py-2 font-semibold rounded"
+                  >
+                    {item.btn}
+                  </button>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
+        {/* Pagination color */}
+        <style jsx global>{`
+          .opinion-swiper .swiper-pagination-bullet {
+            background: #31a3ea;
+            opacity: 0.4;
+          }
+          .opinion-swiper .swiper-pagination-bullet-active {
+            opacity: 1;
+          }
+        `}</style>
+      </section>
+
+      {/* ================= MODAL ================= */}
+      {open && (
+        <OpinionModal
+          label={label}
+          onClose={() => setOpen(false)}
+        />
+      )}
+    </>
+  );
+}
+
+/* ================= MODAL COMPONENT ================= */
+
+function OpinionModal({
+  label,
+  onClose,
+}: {
+  label: string;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
+      <div className="w-full max-w-5xl rounded-2xl bg-[#0b1f1f] relative overflow-hidden">
+        {/* Close */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-white text-2xl"
+        >
+          ✕
+        </button>
+
+        {/* Header */}
+        <div className="bg-green-700 py-4 text-center">
+          <h2 className="text-xl md:text-2xl font-semibold text-yellow-300">
+            আপনার মতামত
+          </h2>
+        </div>
+
+        {/* Form */}
+        <form className="p-6 md:p-10 flex flex-col gap-6 text-white">
+          {/* Name */}
+          <div className="flex flex-col md:flex-row gap-4">
+            <label className="md:w-1/4">পূর্ণ নাম</label>
+            <input className="md:flex-1 bg-transparent border rounded-lg px-4 py-3" />
+          </div>
+
+          {/* Mobile */}
+          <div className="flex flex-col md:flex-row gap-4">
+            <label className="md:w-1/4">মোবাইল নম্বর</label>
+            <input className="md:flex-1 bg-transparent border rounded-lg px-4 py-3" />
+          </div>
+
+          {/* Area */}
+          <div className="flex flex-col md:flex-row gap-4">
+            <label className="md:w-1/4">এরিয়া / ওয়ার্ড</label>
+            <input className="md:flex-1 bg-transparent border rounded-lg px-4 py-3" />
+          </div>
+
+          {/* Dynamic Textarea */}
+          <div className="flex flex-col md:flex-row gap-4 items-start">
+            <label className="md:w-1/4 pt-2">{label}</label>
+            <textarea
+              rows={6}
+              placeholder={`${label} সম্পর্কে লিখুন`}
+              className="md:flex-1 bg-transparent border rounded-lg px-4 py-3 resize-none"
+            />
+          </div>
+
+          {/* Submit */}
+          <div className="flex justify-center pt-6">
+            <button className="bg-yellow-400 text-black font-semibold px-10 py-3 rounded-xl">
+              জমা দিন
+            </button>
+          </div>
+        </form>
       </div>
-    </section>
+    </div>
   );
 }

@@ -13,86 +13,154 @@ const options = [
 
 export default function OpinionSection() {
   const [selected, setSelected] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selected) return alert("অনুগ্রহ করে একটি অপশন নির্বাচন করুন");
-    console.log("Selected:", selected);
+    if (!selected) {
+      alert("অনুগ্রহ করে একটি অপশন নির্বাচন করুন");
+      return;
+    }
+    setOpen(true);
   };
 
   return (
-    <section className="w-full bg-[#F0F6DA] px-8 py-8 md:py-16">
-      <div className="mx-auto max-w-[1000px] text-center">
-        
-        {/* Heading */}
-        <h2 className="text-2xl md:text-[40px] font-semibold text-gray-900 leading-none">
-          আপনার উন্নয়ন আইডিয়া দিন
-        </h2>
+    <>
+      {/* ================= OPINION SECTION ================= */}
+      <section className="w-full bg-[#F0F6DA] px-8 py-8 md:py-16">
+        <div className="mx-auto max-w-[1000px] text-center">
+          <h2 className="text-2xl md:text-[40px] font-semibold text-gray-900">
+            আপনার উন্নয়ন আইডিয়া দিন
+          </h2>
 
-        <p className="mt-4 text-sm md:text-[20px] text-gray-700 leading-none">
-          আপনার মতামত সমাজ পরিবর্তনে সবচেয়ে গুরুত্বপূর্ণ
-        </p>
+          <p className="mt-4 text-sm md:text-[20px] text-gray-700">
+            আপনার মতামত সমাজ পরিবর্তনে সবচেয়ে গুরুত্বপূর্ণ
+          </p>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="mt-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {options.map((option) => {
-              const isActive = selected === option;
+          <form onSubmit={handleSubmit} className="mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {options.map((option) => {
+                const isActive = selected === option;
 
-              return (
-                <label
-                  key={option}
-                  className={`flex items-center gap-4 rounded-xl border px-6 py-4 cursor-pointer transition
-                    ${
-                      isActive
-                        ? "border-green-600 bg-[#E2F1D2]"
-                        : "border-green-500 bg-[#E7F2D9] hover:bg-[#DDF0C8]"
-                    }
-                  `}
-                >
-                  {/* Hidden Radio */}
-                  <input
-                    type="radio"
-                    name="opinion"
-                    value={option}
-                    checked={isActive}
-                    onChange={() => setSelected(option)}
-                    className="hidden"
-                  />
-
-                  {/* Custom Radio */}
-                  <span
-                    className={`h-5 w-5 rounded-full border-2 flex items-center justify-center
+                return (
+                  <label
+                    key={option}
+                    className={`flex items-center gap-4 rounded-xl border px-6 py-4 cursor-pointer transition
                       ${
                         isActive
-                          ? "border-green-700"
-                          : "border-green-600"
+                          ? "border-green-600 bg-[#E2F1D2]"
+                          : "border-green-500 bg-[#E7F2D9] hover:bg-[#DDF0C8]"
                       }
                     `}
                   >
-                    {isActive && (
-                      <span className="h-3 w-3 rounded-full bg-green-700" />
-                    )}
-                  </span>
+                    <input
+                      type="radio"
+                      name="opinion"
+                      checked={isActive}
+                      onChange={() => setSelected(option)}
+                      className="hidden"
+                    />
 
-                  {/* Text */}
-                  <span className="text-[#018635] font-medium">
-                    {option}
-                  </span>
+                    <span
+                      className={`h-5 w-5 rounded-full border-2 flex items-center justify-center
+                        ${isActive ? "border-green-700" : "border-green-600"}
+                      `}
+                    >
+                      {isActive && (
+                        <span className="h-3 w-3 rounded-full bg-green-700" />
+                      )}
+                    </span>
+
+                    <span className="text-[#018635] font-medium">
+                      {option}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+
+            <button
+              type="submit"
+              className="mt-10 inline-flex items-center justify-center rounded-md bg-[#FED525] px-10 py-3 font-semibold text-black hover:bg-yellow-500 transition md:text-[20px]"
+            >
+              সাবমিট করুন
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* ================= MODAL ================= */}
+      {open && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
+          <div className="relative w-full max-w-5xl rounded-2xl overflow-hidden bg-[#0b1f1f]">
+
+            {/* Close */}
+            <button
+              onClick={() => setOpen(false)}
+              className="absolute top-4 right-4 text-white text-2xl"
+            >
+              ✕
+            </button>
+
+            {/* Header */}
+            <div className="bg-green-700 py-4 text-center">
+              <h2 className="text-xl md:text-2xl font-semibold text-yellow-300">
+                আপনার মতামত
+              </h2>
+            </div>
+
+            {/* Form */}
+            <form className="p-6 md:p-10 flex flex-col gap-6 text-white max-h-[80vh] overflow-y-auto">
+              
+              {/* Name */}
+              <div className="flex flex-col md:flex-row gap-4 items-center">
+                <label className="md:w-1/4 text-lg">পূর্ণ নাম</label>
+                <input
+                  type="text"
+                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
+                />
+              </div>
+
+              {/* Mobile */}
+              <div className="flex flex-col md:flex-row gap-4 items-center">
+                <label className="md:w-1/4 text-lg">মোবাইল নম্বর</label>
+                <input
+                  type="tel"
+                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
+                />
+              </div>
+
+              {/* Area */}
+              <div className="flex flex-col md:flex-row gap-4 items-center">
+                <label className="md:w-1/4 text-lg">এরিয়া / ওয়ার্ড</label>
+                <input
+                  type="text"
+                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
+                />
+              </div>
+
+              {/* TEXTAREA – label changes dynamically */}
+              <div className="flex flex-col md:flex-row gap-4 items-start">
+                <label className="md:w-1/4 text-lg pt-2">
+                  {selected}
                 </label>
-              );
-            })}
-          </div>
+                <textarea
+                  rows={6}
+                  placeholder={`${selected} সম্পর্কে বিস্তারিত লিখুন`}
+                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 resize-none focus:ring-2 focus:ring-yellow-400"
+                />
+              </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="mt-10 text-base md:text-[20px] inline-flex items-center justify-center rounded-md bg-[#FED525] px-10 py-3 font-semibold text-black hover:bg-yellow-500 transition"         
-          >
-            সাবমিট করুন
-          </button>
-        </form>
-      </div>
-    </section>
+              {/* Submit */}
+              <div className="flex justify-center pt-6">
+                <button className="bg-yellow-400 text-black font-semibold px-10 py-3 rounded-xl hover:bg-yellow-300 transition">
+                  জমা দিন
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

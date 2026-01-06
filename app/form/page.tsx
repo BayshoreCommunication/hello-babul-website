@@ -3,21 +3,7 @@
 import React from "react";
 
 const Page = () => {
-  const Field = ({
-    label,
-    type = "text",
-  }: {
-    label: string;
-    type?: string;
-  }) => (
-    <div className="flex flex-col md:flex-row gap-4 items-center">
-      <label className="w-full md:w-1/4 text-lg font-medium">{label}</label>
-      <input
-        type={type}
-        className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-      />
-    </div>
-  );
+  
 
   return (
     <>

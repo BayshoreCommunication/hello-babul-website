@@ -1,3 +1,4 @@
+import Image from "next/image";
 export default function Home() {
   return (
     <main className="bg-[#FFFBEA] px-8 py-8 md:py-16">
@@ -18,9 +19,7 @@ export default function Home() {
               "প্রতিটি ধাপের অগ্রগতি আপনাকে স্বচ্ছভাবে জানানো হয়",
             ].map((text, i) => (
               <div key={i} className="flex items-start gap-4">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-600 text-white font-bold">
-                  ✓
-                </div>
+                <Image src="image/steps/icon.png" alt="alt" width={40} height={40} />
                 <p className="text-gray-700">{text}</p>
               </div>
             ))}

@@ -42,7 +42,7 @@ export default function Home() {
             <h2 className="text-[#FED525] text-4xl md:text-5xl font-bold">
               {count1.toLocaleString("bn-BD")}+
             </h2>
-            <p className="mt-2 text-white text-sm md:text-[24px] leading-none">
+            <p className="mt-4   text-white text-sm md:text-[20px] leading-tight">
               নাগরিক মতামত গ্রহণ ও <br /> নিবন্ধিত সম্পন্ন
             </p>
           </div>
@@ -52,7 +52,7 @@ export default function Home() {
             <h2 className="text-[#FED525] text-4xl md:text-5xl font-bold">
               {count2.toLocaleString("bn-BD")}%
             </h2>
-            <p className="mt-2 text-white text-sm md:text-[24px] leading-none">
+            <p className="mt-4   text-white text-sm md:text-[20px] leading-tight">
               প্রাপ্ত সমস্যাগুলো সমাধানের <br /> প্রক্রিয়ায় অগ্রসরমান
             </p>
           </div>
@@ -62,7 +62,7 @@ export default function Home() {
             <h2 className="text-[#FED525] text-4xl md:text-5xl font-bold">
               {count3.toLocaleString("bn-BD")}
             </h2>
-            <p className="mt-2 text-white text-sm md:text-[24px] leading-none">
+            <p className="mt-4 text-white text-sm md:text-[20px] leading-tight">
               ঘন্টার মধ্যে রেসপন্স
             </p>
           </div>
