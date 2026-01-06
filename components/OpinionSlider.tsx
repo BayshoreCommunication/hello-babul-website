@@ -6,6 +6,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Image from "next/image";
+import CustomModal from "./CustomModal";
 
 const opinions = [
   {
@@ -100,9 +101,7 @@ export default function OpinionSlider() {
                     className="mx-auto mb-4"
                   />
 
-                  <p className="text-sm text-gray-600 flex-grow">
-                    {item.desc}
-                  </p>
+                  <p className="text-sm text-gray-600 flex-grow">{item.desc}</p>
 
                   <button
                     onClick={() => {
@@ -133,80 +132,50 @@ export default function OpinionSlider() {
 
       {/* ================= MODAL ================= */}
       {open && (
-        <OpinionModal
-          label={label}
+        <CustomModal
+          isOpen={open}
           onClose={() => setOpen(false)}
-        />
+          title="আপনার মতামত"
+        >
+          {/* Form */}
+          <form className="p-6 md:p-10 flex flex-col gap-6 text-white">
+            {/* Name */}
+            <div className="flex flex-col md:flex-row gap-4">
+              <label className="md:w-1/4">পূর্ণ নাম</label>
+              <input className="md:flex-1 bg-transparent border rounded-lg px-4 py-3" />
+            </div>
+
+            {/* Mobile */}
+            <div className="flex flex-col md:flex-row gap-4">
+              <label className="md:w-1/4">মোবাইল নম্বর</label>
+              <input className="md:flex-1 bg-transparent border rounded-lg px-4 py-3" />
+            </div>
+
+            {/* Area */}
+            <div className="flex flex-col md:flex-row gap-4">
+              <label className="md:w-1/4">এরিয়া / ওয়ার্ড</label>
+              <input className="md:flex-1 bg-transparent border rounded-lg px-4 py-3" />
+            </div>
+
+            {/* Dynamic Textarea */}
+            <div className="flex flex-col md:flex-row gap-4 items-start">
+              <label className="md:w-1/4 pt-2">{label}</label>
+              <textarea
+                rows={6}
+                placeholder={`${label} সম্পর্কে লিখুন`}
+                className="md:flex-1 bg-transparent border rounded-lg px-4 py-3 resize-none"
+              />
+            </div>
+
+            {/* Submit */}
+            <div className="flex justify-center pt-6">
+              <button className="bg-yellow-400 text-black font-semibold px-10 py-3 rounded-xl">
+                জমা দিন
+              </button>
+            </div>
+          </form>
+        </CustomModal>
       )}
     </>
-  );
-}
-
-/* ================= MODAL COMPONENT ================= */
-
-function OpinionModal({
-  label,
-  onClose,
-}: {
-  label: string;
-  onClose: () => void;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-      <div className="w-full max-w-5xl rounded-2xl bg-[#0b1f1f] relative overflow-hidden">
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-white text-2xl"
-        >
-          ✕
-        </button>
-
-        {/* Header */}
-        <div className="bg-green-700 py-4 text-center">
-          <h2 className="text-xl md:text-2xl font-semibold text-yellow-300">
-            আপনার মতামত
-          </h2>
-        </div>
-
-        {/* Form */}
-        <form className="p-6 md:p-10 flex flex-col gap-6 text-white">
-          {/* Name */}
-          <div className="flex flex-col md:flex-row gap-4">
-            <label className="md:w-1/4">পূর্ণ নাম</label>
-            <input className="md:flex-1 bg-transparent border rounded-lg px-4 py-3" />
-          </div>
-
-          {/* Mobile */}
-          <div className="flex flex-col md:flex-row gap-4">
-            <label className="md:w-1/4">মোবাইল নম্বর</label>
-            <input className="md:flex-1 bg-transparent border rounded-lg px-4 py-3" />
-          </div>
-
-          {/* Area */}
-          <div className="flex flex-col md:flex-row gap-4">
-            <label className="md:w-1/4">এরিয়া / ওয়ার্ড</label>
-            <input className="md:flex-1 bg-transparent border rounded-lg px-4 py-3" />
-          </div>
-
-          {/* Dynamic Textarea */}
-          <div className="flex flex-col md:flex-row gap-4 items-start">
-            <label className="md:w-1/4 pt-2">{label}</label>
-            <textarea
-              rows={6}
-              placeholder={`${label} সম্পর্কে লিখুন`}
-              className="md:flex-1 bg-transparent border rounded-lg px-4 py-3 resize-none"
-            />
-          </div>
-
-          {/* Submit */}
-          <div className="flex justify-center pt-6">
-            <button className="bg-yellow-400 text-black font-semibold px-10 py-3 rounded-xl">
-              জমা দিন
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
   );
 }

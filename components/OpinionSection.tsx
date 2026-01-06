@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import CustomModal from "./CustomModal";
+import toast, { Toaster } from "react-hot-toast";
 
 const options = [
   "স্কুল বানানোর দাবি",
@@ -18,7 +20,7 @@ export default function OpinionSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selected) {
-      alert("অনুগ্রহ করে একটি অপশন নির্বাচন করুন");
+      toast.error("অনুগ্রহ করে একটি অপশন নির্বাচন করুন!");
       return;
     }
     setOpen(true);
@@ -26,6 +28,9 @@ export default function OpinionSection() {
 
   return (
     <>
+      {/* Toaster */}
+      <Toaster position="top-right" reverseOrder={false} />
+
       {/* ================= OPINION SECTION ================= */}
       <section className="w-full bg-[#F0F6DA] px-8 py-8 md:py-16">
         <div className="mx-auto max-w-[1000px] text-center">
@@ -71,9 +76,7 @@ export default function OpinionSection() {
                       )}
                     </span>
 
-                    <span className="text-[#018635] font-medium">
-                      {option}
-                    </span>
+                    <span className="text-[#018635] font-medium">{option}</span>
                   </label>
                 );
               })}
@@ -91,75 +94,58 @@ export default function OpinionSection() {
 
       {/* ================= MODAL ================= */}
       {open && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
-          <div className="relative w-full max-w-5xl rounded-2xl overflow-hidden bg-[#0b1f1f]">
-
-            {/* Close */}
-            <button
-              onClick={() => setOpen(false)}
-              className="absolute top-4 right-4 text-white text-2xl"
-            >
-              ✕
-            </button>
-
-            {/* Header */}
-            <div className="bg-green-700 py-4 text-center">
-              <h2 className="text-xl md:text-2xl font-semibold text-yellow-300">
-                আপনার মতামত
-              </h2>
+        <CustomModal
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          title="আপনার মতামত"
+        >
+          {/* Form */}
+          <form className="p-6 md:p-10 flex flex-col gap-6 text-white">
+            {/* Name */}
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+              <label className="md:w-1/4 text-lg">পূর্ণ নাম</label>
+              <input
+                type="text"
+                className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
+              />
             </div>
 
-            {/* Form */}
-            <form className="p-6 md:p-10 flex flex-col gap-6 text-white max-h-[80vh] overflow-y-auto">
-              
-              {/* Name */}
-              <div className="flex flex-col md:flex-row gap-4 items-center">
-                <label className="md:w-1/4 text-lg">পূর্ণ নাম</label>
-                <input
-                  type="text"
-                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
-                />
-              </div>
+            {/* Mobile */}
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+              <label className="md:w-1/4 text-lg">মোবাইল নম্বর</label>
+              <input
+                type="tel"
+                className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
+              />
+            </div>
 
-              {/* Mobile */}
-              <div className="flex flex-col md:flex-row gap-4 items-center">
-                <label className="md:w-1/4 text-lg">মোবাইল নম্বর</label>
-                <input
-                  type="tel"
-                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
-                />
-              </div>
+            {/* Area */}
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+              <label className="md:w-1/4 text-lg">এরিয়া / ওয়ার্ড</label>
+              <input
+                type="text"
+                className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
+              />
+            </div>
 
-              {/* Area */}
-              <div className="flex flex-col md:flex-row gap-4 items-center">
-                <label className="md:w-1/4 text-lg">এরিয়া / ওয়ার্ড</label>
-                <input
-                  type="text"
-                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
-                />
-              </div>
+            {/* TEXTAREA */}
+            <div className="flex flex-col md:flex-row gap-4 items-start">
+              <label className="md:w-1/4 text-lg pt-2">{selected}</label>
+              <textarea
+                rows={6}
+                placeholder={`${selected} সম্পর্কে বিস্তারিত লিখুন`}
+                className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 resize-none focus:ring-2 focus:ring-yellow-400"
+              />
+            </div>
 
-              {/* TEXTAREA – label changes dynamically */}
-              <div className="flex flex-col md:flex-row gap-4 items-start">
-                <label className="md:w-1/4 text-lg pt-2">
-                  {selected}
-                </label>
-                <textarea
-                  rows={6}
-                  placeholder={`${selected} সম্পর্কে বিস্তারিত লিখুন`}
-                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 resize-none focus:ring-2 focus:ring-yellow-400"
-                />
-              </div>
-
-              {/* Submit */}
-              <div className="flex justify-center pt-6">
-                <button className="bg-yellow-400 text-black font-semibold px-10 py-3 rounded-xl hover:bg-yellow-300 transition">
-                  জমা দিন
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+            {/* Submit */}
+            <div className="flex justify-center pt-6">
+              <button className="bg-yellow-400 text-black font-semibold px-10 py-3 rounded-xl hover:bg-yellow-300 transition">
+                জমা দিন
+              </button>
+            </div>
+          </form>
+        </CustomModal>
       )}
     </>
   );
