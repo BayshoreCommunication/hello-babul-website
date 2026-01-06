@@ -5,7 +5,7 @@ import { Providers } from "./providers";
 
 
 export const metadata: Metadata = {
-  title: "Babul Website",
+  title: "Hello Babul",
   description: "babul Website",
   metadataBase: new URL("https://mccullochlawpa-website.vercel.app"),
   alternates: {
