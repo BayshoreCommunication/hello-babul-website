@@ -6,6 +6,9 @@ import ImportantComplaintSection from '@/components/ImportantComplaintSection';
 import OpinionSection from '@/components/OpinionSection';
 import DevelopmentProgressSection from '@/components/DevelopmentProgressSection';
 import Team from '@/components/Team';
+import Stats from '@/components/Stats';
+import WorkStep from '@/components/WorkStep';
+import FooterInfoSection from '@/components/FooterInfoSection';
 
 export default function Home() {
   return (
@@ -17,6 +20,9 @@ export default function Home() {
       <OpinionSection/>
       <DevelopmentProgressSection/>
       <Team/>
+      <Stats/>
+      <WorkStep/>
+      <FooterInfoSection/>
     </> 
   );
 }

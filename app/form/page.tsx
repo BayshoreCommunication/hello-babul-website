@@ -88,6 +88,7 @@ const Page = () => {
           </form>
         </div>
       </div>
+
       <div className="min-h-screen flex items-center justify-center bg-[#ffffff] p-4">
         <div className="w-full max-w-5xl rounded-2xl border border-white/30 overflow-hidden bg-[#0b1f1f]">
           {/* Header */}
@@ -182,6 +183,7 @@ const Page = () => {
           </form>
         </div>
       </div>
+      
       <div className="min-h-screen flex items-center justify-center bg-[#0b1f1f] p-4">
         <div className="w-full max-w-5xl rounded-2xl border border-white/30 overflow-hidden bg-[#0b1f1f]">
           {/* Header */}
@@ -311,6 +313,10 @@ const Page = () => {
           </form>
         </div>
       </div>
+<<<<<<< HEAD
+      
+=======
+>>>>>>> 41061e561bae8d551805574608cddaa2490c9dad
     </>
   );
 };

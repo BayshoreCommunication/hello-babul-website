@@ -4,7 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Babul Website",
+  title: "Hello Babul",
   description: "babul Website",
   metadataBase: new URL("https://hellobabul.vercel.app/"),
   alternates: {
