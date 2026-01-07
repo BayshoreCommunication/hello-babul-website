@@ -31,7 +31,7 @@ export default function HeroSection() {
                 />
                 Hello Babul
               </h1>
-              <p className="mt-4 text-lg md:text-[48px] leading-none">
+              <p className="mt-4 text-lg md:text-[48px] leading-none max-w-2xl">
                 আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
               </p>
               <p className="mt-4 md:text-[32px] text-[#FED525]">
