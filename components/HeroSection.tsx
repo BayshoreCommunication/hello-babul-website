@@ -13,8 +13,7 @@ export default function HeroSection() {
       <section className="w-full">
         {/* Top red section */}
         <div className="bg-[#D13212] text-white">
-          <div className="max-w-[1640px] mx-auto md:flex flex-col md:flex-row items-center justify-evenly pt-8 pb-8 md:pb-0 md:pt-16 px-8 gap-6 hidden ">
-            {/* Image */}
+          <div className="max-w-[1640px] mx-auto md:flex flex-col md:flex-row items-center justify-evenly pt-8 pb-8 md:pb-0 md:pt-16 px-8 gap-6 hidden">
             <Image
               src="/image/hero/babul.png"
               alt="Babul"
@@ -22,8 +21,6 @@ export default function HeroSection() {
               height={800}
               className="rounded-lg object-cover w-[500px] h-auto"
             />
-
-            {/* Text */}
             <div className="flex flex-col items-center text-center">
               <h1 className="text-[48px] md:text-[64px] font-bold flex items-center gap-2">
                 <Image
@@ -34,34 +31,34 @@ export default function HeroSection() {
                 />
                 Hello Babul
               </h1>
-
-              <p className="mt-4 text-lg md:text-[48px] leading-none">
+              <p className="mt-4 text-lg md:text-[48px] leading-none max-w-2xl">
                 আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
               </p>
-
               <p className="mt-4 md:text-[32px] text-[#FED525]">
                 -- শহিদুল ইসলাম বাবুল
               </p>
             </div>
           </div>
-          <div className="max-w-[1640px] mx-auto md:hidden flex-col md:flex-row items-center justify-evenly pt-8 pb-8 md:pb-0 md:pt-16 px-8 gap-6 ">
-            {/* Image */}
+
+          {/* Mobile Section */}
+          <div className="max-w-[1640px] mx-auto md:hidden flex flex-col items-center justify-evenly pt-8 pb-8 px-8 gap-6">
             <Image
               src="/image/hero/babul-phone.png"
               alt="Babul"
               width={1000}
               height={800}
-              className="rounded-lg object-cover w-[500px] h-auto"
+              className="rounded-lg object-cover w-[100%] h-auto"
             />
-
-            {/* Text */}
             <div className="flex flex-col items-center text-center">
               <p className="mt-8 text-lg md:text-[48px] leading-tight">
                 অভিযোগ করুন, পরামর্শ দিন - পরিবর্তনে আপনার অংশগ্রহণই সবচেয়ে
                 শক্তিশালী শক্তি।আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
               </p>
-
-              <p className="mt-4 md:text-[32px] text-[#FED525]">
+              <p className="mt-4 text-[#FED525] text-xl">
+                অভিযোগ করুন, পরামর্শ দিন - পরিবর্তনে আপনার অংশগ্রহণই সবচেয়ে
+                শক্তিশালী শক্তি।আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
+              </p>
+              <p className="mt-4 text-[#FED525] text-xl">
                 -- শহিদুল ইসলাম বাবুল
               </p>
             </div>

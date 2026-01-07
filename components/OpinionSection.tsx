@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import CustomModal from "./CustomModal";
+import toast, { Toaster } from "react-hot-toast";
 
 const options = [
   "স্কুল বানানোর দাবি",
@@ -19,7 +20,7 @@ export default function OpinionSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selected) {
-      alert("অনুগ্রহ করে একটি অপশন নির্বাচন করুন");
+      toast.error("অনুগ্রহ করে একটি অপশন নির্বাচন করুন!");
       return;
     }
     setOpen(true);
@@ -27,6 +28,9 @@ export default function OpinionSection() {
 
   return (
     <>
+      {/* Toaster */}
+      <Toaster position="top-right" reverseOrder={false} />
+
       {/* ================= OPINION SECTION ================= */}
       <section className="w-full bg-[#F0F6DA] px-8 py-8 md:py-16">
         <div className="mx-auto max-w-[1000px] text-center">
@@ -124,7 +128,7 @@ export default function OpinionSection() {
               />
             </div>
 
-            {/* TEXTAREA – label changes dynamically */}
+            {/* TEXTAREA */}
             <div className="flex flex-col md:flex-row gap-4 items-start">
               <label className="md:w-1/4 text-lg pt-2">{selected}</label>
               <textarea

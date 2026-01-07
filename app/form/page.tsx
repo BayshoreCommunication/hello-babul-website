@@ -3,8 +3,6 @@
 import React from "react";
 
 const Page = () => {
-  
-
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-[#0b1f1f] p-4">
@@ -298,6 +296,32 @@ const Page = () => {
             </div>
           </form>
         </div>
+      </div>
+
+      <div className="w-full max-w-6xl mx-auto rounded-2xl border border-white/80 bg-[#0b1f1f] px-6 py-16 md:px-12 md:py-24 text-center shadow-xl">
+        <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-green-700">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8 text-white"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-yellow-400">
+          ধন্যবাদ! আপনার অভিযোগ/পরামর্শ আমরা গ্রহণ করেছি
+        </h2>
+
+        <p className="mt-4 max-w-3xl mx-auto text-sm md:text-base text-white/90 leading-relaxed">
+          জনগণের সমস্যার দ্রুত সমাধানে সংশ্লিষ্ট বিভাগ ইতোমধ্যে পদক্ষেপ নিয়েছে।
+          প্রয়োজন হলে আমরা আপনার সাথে যোগাযোগ করব।
+        </p>
       </div>
     </>
   );
