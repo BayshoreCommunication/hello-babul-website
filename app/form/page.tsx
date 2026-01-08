@@ -298,7 +298,7 @@ const Page = () => {
         </div>
       </div>
 
-      <div className="w-full max-w-6xl mx-auto rounded-2xl border border-white/80 bg-[#0b1f1f] px-6 py-16 md:px-12 md:py-24 text-center shadow-xl">
+      <div className="w-full max-w-2xl mx-auto rounded-2xl border border-white/80 bg-[#0b1f1f] px-6 py-8 text-center shadow-xl">
         <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-green-700">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -323,6 +323,35 @@ const Page = () => {
           প্রয়োজন হলে আমরা আপনার সাথে যোগাযোগ করব।
         </p>
       </div>
+
+      
+        <div className="w-full max-w-2xl rounded-xl border border-white/20 bg-[#0b1f1f] p-10 text-center shadow-lg">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-700">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-7 w-7 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
+
+          <h2 className="mt-6 text-xl md:text-2xl font-semibold text-[#FED525]">
+            আপনার আবেদন সফলভাবে গ্রহণ করা হয়েছে
+          </h2>
+
+          <p className="mt-3 text-sm md:text-base text-gray-200">
+            জনগণের সেবায় আপনাদের সহযোগিতাই আমাদের শক্তি হিসেবে কাজ করে
+          </p>
+        </div>
+      
     </>
   );
 };

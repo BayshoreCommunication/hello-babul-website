@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { Providers } from "./providers";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Hello Babul",
@@ -29,6 +30,13 @@ export default function RootLayout({
       <body className="">
         <Providers>
           <main>{children}</main>
+
+           <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
         </Providers>
       </body>
     </html>
