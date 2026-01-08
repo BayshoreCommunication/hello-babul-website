@@ -23,7 +23,12 @@ export default function HeroSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.fullname || !formData.mobile || !formData.area || !formData.comment) {
+    if (
+      !formData.fullname ||
+      !formData.mobile ||
+      !formData.area ||
+      !formData.comment
+    ) {
       toast.error("Please fill all required fields!");
       return;
     }
@@ -89,24 +94,48 @@ export default function HeroSection() {
       {/* ================= HERO SECTION ================= */}
       <section className="w-full">
         <div className="bg-[#D13212] text-white">
-          <div className="max-w-[1640px] mx-auto hidden md:flex items-center justify-evenly pt-16 px-8 gap-6">
+          <div className="max-w-[1640px] mx-auto md:flex flex-col md:flex-row items-center justify-evenly pt-8 pb-8 md:pb-0 md:pt-16 px-8 gap-6 hidden">
             <Image
               src="/image/hero/babul.png"
               alt="Babul"
               width={1000}
               height={800}
-              className="w-[500px] h-auto rounded-lg"
+              className="rounded-lg object-cover w-[500px] h-auto"
             />
-
-            <div className="text-center">
-              <h1 className="text-[64px] font-bold flex items-center gap-2 justify-center">
-                <Image src="/image/hero/icon.png" alt="icon" width={48} height={48} />
+            <div className="flex flex-col items-center text-center">
+              <h1 className="text-[48px] md:text-[64px] font-bold flex items-center gap-2">
+                <Image
+                  src="/image/hero/icon.png"
+                  alt="icon"
+                  width={48}
+                  height={48}
+                />
                 Hello Babul
               </h1>
-              <p className="mt-4 text-[48px] leading-none max-w-2xl">
+              <p className="mt-4 text-lg md:text-[48px] leading-none max-w-2xl">
                 আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
               </p>
-              <p className="mt-4 text-[32px] text-[#FED525]">
+              <p className="mt-4 md:text-[32px] text-[#FED525]">
+                -- শহিদুল ইসলাম বাবুল
+              </p>
+            </div>
+          </div>
+
+          {/* Mobile Section */}
+          <div className="max-w-[1640px] mx-auto md:hidden flex flex-col items-center justify-evenly pt-8 pb-8 px-8 gap-6">
+            <Image
+              src="/image/hero/babul-phone.png"
+              alt="Babul"
+              width={1000}
+              height={800}
+              className="rounded-lg object-cover w-[100%] h-auto"
+            />
+            <div className="flex flex-col items-center text-center">
+              <p className="mt-4 text-white text-xl">
+                অভিযোগ করুন, পরামর্শ দিন - পরিবর্তনে আপনার অংশগ্রহণই সবচেয়ে
+                শক্তিশালী শক্তি।আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
+              </p>
+              <p className="mt-4 text-[#FED525] text-xl">
                 -- শহিদুল ইসলাম বাবুল
               </p>
             </div>
@@ -115,7 +144,8 @@ export default function HeroSection() {
 
         <div className="bg-[#018635] text-center px-6 py-10">
           <p className="text-lg md:text-[40px] text-[#FED525] max-w-6xl mx-auto leading-none">
-            আপনার মতামত সরাসরি আমার টিমের কাছে পৌঁছাবে, প্রয়োজন হলে আমরা যোগাযোগ করব
+            আপনার মতামত সরাসরি আমার টিমের কাছে পৌঁছাবে, প্রয়োজন হলে আমরা যোগাযোগ
+            করব
           </p>
 
           <button
@@ -142,7 +172,9 @@ export default function HeroSection() {
               type="text"
               placeholder="পূর্ণ নাম"
               value={formData.fullname}
-              onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, fullname: e.target.value })
+              }
               required
               className="bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
             />
@@ -151,7 +183,9 @@ export default function HeroSection() {
               type="tel"
               placeholder="মোবাইল নম্বর"
               value={formData.mobile}
-              onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, mobile: e.target.value })
+              }
               required
               className="bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
             />
@@ -160,7 +194,9 @@ export default function HeroSection() {
               type="text"
               placeholder="এরিয়া / ওয়ার্ড"
               value={formData.area}
-              onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, area: e.target.value })
+              }
               required
               className="bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
             />
@@ -169,7 +205,9 @@ export default function HeroSection() {
               rows={5}
               placeholder="আপনার অভিযোগ/পরামর্শ লিখুন"
               value={formData.comment}
-              onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, comment: e.target.value })
+              }
               required
               className="bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
             />
@@ -220,7 +258,11 @@ export default function HeroSection() {
                 stroke="currentColor"
                 strokeWidth={2.5}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
 
