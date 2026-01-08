@@ -9,11 +9,13 @@ export default function HeroSection() {
   const [open, setOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     fullname: "",
     mobile: "",
     area: "",
+    typeOfSuggest: "",
     comment: "",
     file: null as File | null,
   });
@@ -21,17 +23,27 @@ export default function HeroSection() {
   // ================= SUBMIT =================
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (
+      !formData.fullname ||
+      !formData.mobile ||
+      !formData.area ||
+      !formData.typeOfSuggest ||
+      !formData.comment
+    ) {
+      toast.error("Please fill all required fields!");
+      return;
+    }
+
     setLoading(true);
 
     const data = new FormData();
     data.append("fullname", formData.fullname);
     data.append("mobile", formData.mobile);
     data.append("area", formData.area);
+    data.append("typeOfSuggest", formData.typeOfSuggest);
     data.append("comment", formData.comment);
-
-    if (formData.file) {
-      data.append("media", formData.file);
-    }
+    if (formData.file) data.append("media", formData.file);
 
     try {
       const res = await fetch(
@@ -53,9 +65,11 @@ export default function HeroSection() {
         fullname: "",
         mobile: "",
         area: "",
+        typeOfSuggest: "",
         comment: "",
         file: null,
       });
+      setFilePreview(null);
     } catch (err: any) {
       toast.error(err.message || "সমস্যা হয়েছে, আবার চেষ্টা করুন");
     } finally {
@@ -159,7 +173,8 @@ export default function HeroSection() {
                   setFormData({ ...formData, fullname: e.target.value })
                 }
                 required
-                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3"
+                placeholder="পূর্ণ নাম"
+                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
               />
             </div>
 
@@ -173,7 +188,8 @@ export default function HeroSection() {
                   setFormData({ ...formData, mobile: e.target.value })
                 }
                 required
-                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3"
+                placeholder="মোবাইল নম্বর"
+                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
               />
             </div>
 
@@ -187,13 +203,31 @@ export default function HeroSection() {
                   setFormData({ ...formData, area: e.target.value })
                 }
                 required
-                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3"
+                placeholder="এরিয়া / ওয়ার্ড"
+                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
               />
+            </div>
+
+            {/* Type of Suggest */}
+            <div className="flex flex-col md:flex-row gap-4">
+              <label className="md:w-1/4">ধরন</label>
+              <select
+                value={formData.typeOfSuggest}
+                onChange={(e) =>
+                  setFormData({ ...formData, typeOfSuggest: e.target.value })
+                }
+                required
+                className="flex-1 bg-black border border-white/60 rounded-lg px-4 py-3 text-white"
+              >
+                <option value="">-- নির্বাচন করুন --</option>
+                <option value="complaint">অভিযোগ</option>
+                <option value="suggestion">পরামর্শ</option>
+              </select>
             </div>
 
             {/* Comment */}
             <div className="flex flex-col md:flex-row gap-4">
-              <label className="md:w-1/4">আপনার অভিযোগ</label>
+              <label className="md:w-1/4">আপনার অভিযোগ/পরামর্শ</label>
               <textarea
                 rows={5}
                 value={formData.comment}
@@ -201,24 +235,46 @@ export default function HeroSection() {
                   setFormData({ ...formData, comment: e.target.value })
                 }
                 required
-                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3"
+                placeholder="আপনার অভিযোগ/পরামর্শ লিখুন"
+                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
               />
             </div>
 
-            {/* File */}
-            <label className="cursor-pointer bg-gray-200 text-black px-6 py-3 rounded-lg w-fit">
-              Upload file
-              <input
-                type="file"
-                className="hidden"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    file: e.target.files?.[0] || null,
-                  })
-                }
-              />
-            </label>
+            {/* File Upload */}
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+              <label className="md:w-1/4">ফাইল আপলোড (ঐচ্ছিক)</label>
+              <label className="cursor-pointer bg-gray-200 text-black px-6 py-3 rounded-lg w-fit">
+                Upload file
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    setFormData({ ...formData, file });
+                    if (file) setFilePreview(URL.createObjectURL(file));
+                    else setFilePreview(null);
+                  }}
+                />
+              </label>
+            </div>
+
+            {/* File preview */}
+            {filePreview && (
+              <div className="mt-2 text-left">
+                <p className="text-sm text-gray-300">Selected file:</p>
+                {formData.file?.type.startsWith("image/") && (
+                  <img
+                    src={filePreview}
+                    alt="preview"
+                    className="mt-1 w-32 h-32 object-cover rounded-lg border border-white/50"
+                  />
+                )}
+                {formData.file?.type === "application/pdf" && (
+                  <p className="text-white mt-1">{formData.file.name}</p>
+                )}
+              </div>
+            )}
 
             {/* Submit */}
             <button
@@ -245,11 +301,7 @@ export default function HeroSection() {
                 stroke="currentColor"
                 strokeWidth={2.5}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             </div>
 
