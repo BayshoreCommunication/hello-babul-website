@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import CustomModal from "./CustomModal";
 
 interface FormData {
@@ -26,6 +26,8 @@ export default function Team() {
   const [open, setOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filePreview, setFilePreview] = useState<string | null>(null); // For live preview
+
   const [formData, setFormData] = useState<FormData>({
     fullname: "",
     fathername: "",
@@ -45,14 +47,21 @@ export default function Team() {
     { name: "মাহমুদ হাসান", role: "অভিযোগ ডেস্ক প্রধান", desc: "নাগরিক অভিযোগ গ্রহণ, ফলো-আপ ও সমাধান নিশ্চিত করেন", img: "/image/team/img4.png" },
   ];
 
-  // Type-safe handleChange
+  // Type-safe handleChange with file preview
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked, files } = e.target;
+    const { name, type, checked, files, value } = e.target;
 
     if (type === "checkbox") {
       setFormData(prev => ({ ...prev, [name]: checked }));
     } else if (type === "file") {
-      setFormData(prev => ({ ...prev, [name]: files ? files[0] : null }));
+      const file = files ? files[0] : null;
+      setFormData(prev => ({ ...prev, [name]: file }));
+      if (file && file.type.startsWith("image/")) {
+        const previewUrl = URL.createObjectURL(file);
+        setFilePreview(previewUrl);
+      } else {
+        setFilePreview(null);
+      }
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
@@ -76,7 +85,7 @@ export default function Team() {
 
       if (!res.ok) throw new Error("Failed to submit form");
 
-      // Reset form and show success
+      // Reset form and preview
       setFormData({
         fullname: "",
         fathername: "",
@@ -88,6 +97,7 @@ export default function Team() {
         agree: false,
         media: null,
       });
+      setFilePreview(null);
 
       setOpen(false);
       setSuccessOpen(true);
@@ -175,6 +185,14 @@ export default function Team() {
                 <input type="file" name="media" onChange={handleChange} className="hidden" accept="image/*" />
               </label>
             </div>
+
+            {/* Live Preview */}
+            {filePreview && (
+              <div className="mt-2 text-left md:ml-1">
+                <p className="text-sm text-gray-300">Selected Image Preview:</p>
+                <img src={filePreview} alt="preview" className="mt-1 w-32 h-32 object-cover rounded-lg border border-white/50" />
+              </div>
+            )}
 
             {/* Declaration */}
             <div className="flex items-start gap-3">
