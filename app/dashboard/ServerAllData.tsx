@@ -3,7 +3,7 @@
 import {
   deleteData,
   getAllDashboardData,
-  type DataType
+  type DataType,
 } from "@/app/actions/dashboard";
 import DeleteModal from "@/components/dashboard/DeleteModal";
 import { Loader2, Mail } from "lucide-react";
@@ -95,13 +95,13 @@ const ServerAllData: React.FC = () => {
 
     try {
       setActionLoading(selectedItem._id);
-      
+
       const response = await deleteData(selectedItem._id, selectedItem.type);
-      
+
       if (response.success) {
         // Remove from local state
         setData((prev) => prev.filter((d) => d._id !== selectedItem._id));
-        
+
         // Update pagination total
         if (pagination) {
           setPagination({
@@ -109,7 +109,7 @@ const ServerAllData: React.FC = () => {
             total: pagination.total - 1,
           });
         }
-        
+
         console.log("Deleted:", selectedItem.fullname);
         setOpenDelete(false);
         setSelectedItem(null);
@@ -162,7 +162,7 @@ const ServerAllData: React.FC = () => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1); // Reset to first page on search
               }}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 text-black py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -199,8 +199,12 @@ const ServerAllData: React.FC = () => {
                   <th className="pb-3 text-sm font-medium text-[#949494]">
                     এলাকা / ওয়ার্ড
                   </th>
-                  <th className="pb-3 text-sm font-medium text-[#949494]">ধরণ</th>
-                  <th className="pb-3 text-sm font-medium text-[#949494]">স্ট্যাটাস</th>
+                  <th className="pb-3 text-sm font-medium text-[#949494]">
+                    ধরণ
+                  </th>
+                  <th className="pb-3 text-sm font-medium text-[#949494]">
+                    স্ট্যাটাস
+                  </th>
                   <th className="pb-3 text-sm font-medium text-[#949494] text-center">
                     একশন
                   </th>
@@ -212,7 +216,9 @@ const ServerAllData: React.FC = () => {
                     <td className="py-4 text-black">{item.fullname}</td>
                     <td className="py-4 text-black">{item.mobile}</td>
                     <td className="py-4 text-black">{item.area}</td>
-                    <td className="py-4 text-black">{getTypeLabel(item.type, item)}</td>
+                    <td className="py-4 text-black">
+                      {getTypeLabel(item.type, item)}
+                    </td>
                     <td className="py-4">
                       <span
                         className={`font-semibold ${
@@ -234,7 +240,9 @@ const ServerAllData: React.FC = () => {
                       </button>
                       <button
                         className={`px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-50 transition-colors ${
-                          actionLoading === item._id ? "opacity-50 cursor-not-allowed" : ""
+                          actionLoading === item._id
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
                         }`}
                         onClick={() => {
                           setSelectedItem(item);
@@ -254,7 +262,8 @@ const ServerAllData: React.FC = () => {
             {pagination && pagination.totalPages > 1 && (
               <div className="flex items-center justify-between mt-6">
                 <p className="text-sm text-gray-600">
-                  মোট {pagination.total} টি আইটেম, পৃষ্ঠা {pagination.page} / {pagination.totalPages}
+                  মোট {pagination.total} টি আইটেম, পৃষ্ঠা {pagination.page} /{" "}
+                  {pagination.totalPages}
                 </p>
                 <div className="flex gap-2">
                   <button
@@ -293,4 +302,3 @@ const ServerAllData: React.FC = () => {
 };
 
 export default ServerAllData;
-
