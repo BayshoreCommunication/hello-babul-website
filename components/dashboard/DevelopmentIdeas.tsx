@@ -61,40 +61,42 @@ const DevelopmentIdeas = () => {
   ];
 
   return (
-    <div className="">
+    <div className=" max-h-[68vh] h-full overflow-auto ">
       <div className="bg-white rounded-lg shadow-sm p-8">
         <div className="flex items-center gap-3 mb-6">
           <Mail className="text-blue-600" size={24} />
-          <h2 className="text-2xl font-bold">সাম্প্রতিক সকল আবেদন</h2>
+          <h2 className="text-2xl font-bold text-black">উন্নয়ন আইডিয়া</h2>
         </div>
 
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-200 text-left">
-              <th className="pb-3 text-sm font-medium text-gray-600">
+              <th className="pb-3 text-sm font-medium text-[#949494]">
                 আবেদনকারীর নাম
               </th>
-              <th className="pb-3 text-sm font-medium text-gray-600">
+              <th className="pb-3 text-sm font-medium text-[#949494]">
                 আবেদনকারীর নম্বর
               </th>
-              <th className="pb-3 text-sm font-medium text-gray-600">
+              <th className="pb-3 text-sm font-medium text-[#949494]">
                 এলাকা / ওয়ার্ড
               </th>
-              <th className="pb-3 text-sm font-medium text-gray-600">
+              <th className="pb-3 text-sm font-medium text-[#949494]">
                 আবেদনের অবস্থা
               </th>
-              <th className="pb-3 text-sm font-medium text-gray-600">আক্শন</th>
+              <th className="pb-3 text-sm font-medium text-[#949494] text-center">
+                একশন
+              </th>
             </tr>
           </thead>
           <tbody>
             {recentApplications.map((app, idx) => (
               <tr key={idx} className="border-b border-gray-100">
-                <td className="py-4">{app.name}</td>
-                <td className="py-4">{app.phone}</td>
-                <td className="py-4">{app.address}</td>
+                <td className="py-4 text-black">{app.name}</td>
+                <td className="py-4 text-black">{app.phone}</td>
+                <td className="py-4 text-black">{app.address}</td>
                 <td className="py-4">
                   <span
-                    className={`${
+                    className={`cursor-pointer font-semibold ${
                       app.status === "Unread"
                         ? "text-green-600"
                         : "text-gray-600"
@@ -103,7 +105,7 @@ const DevelopmentIdeas = () => {
                     {app.status}
                   </span>
                 </td>
-                <td className="py-4">
+                <td className="py-4  text-center">
                   <button className="px-4 py-1 border border-red-500 text-red-500 rounded hover:bg-red-50 text-sm">
                     Delete
                   </button>

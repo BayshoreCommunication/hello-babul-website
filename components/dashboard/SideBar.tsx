@@ -42,14 +42,14 @@ const SideBar = () => {
       activeColor: "text-green-600",
     },
     {
-      label: "মতামত / পরামর্শ",
+      label: "মতামত ",
       href: "/dashboard/feedback",
       icon: MessageSquare,
       activeColor: "text-purple-600",
     },
     {
-      label: "খেঞ্জারসক আবেদন",
-      href: "/dashboard/special",
+      label: "স্বেচ্ছাসেবক আবেদন",
+      href: "/dashboard/volunteer-application",
       icon: User,
       activeColor: "text-indigo-600",
     },

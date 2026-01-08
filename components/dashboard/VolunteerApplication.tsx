@@ -1,10 +1,8 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Mail } from "lucide-react";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { LuEye } from "react-icons/lu";
 
-const Complaint = () => {
+const VolunteerApplication = () => {
   const recentApplications = [
     {
       name: "Hamid Hasan",
@@ -67,7 +65,7 @@ const Complaint = () => {
       <div className="bg-white rounded-lg shadow-sm p-8">
         <div className="flex items-center gap-3 mb-6">
           <Mail className="text-blue-600" size={24} />
-          <h2 className="text-2xl font-bold text-black">অভিযোগ</h2>
+          <h2 className="text-2xl font-bold text-black">স্বেচ্ছাসেবক আবেদন</h2>
         </div>
 
         <table className="w-full">
@@ -107,12 +105,9 @@ const Complaint = () => {
                     {app.status}
                   </span>
                 </td>
-                <td className="py-4  text-center space-x-3">
-                  <button className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50 ">
-                    <LuEye size={16} className=" " />
-                  </button>
-                  <button className="px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-50 ">
-                    <RiDeleteBinLine size={16} className=" " />
+                <td className="py-4  text-center">
+                  <button className="px-4 py-1 border border-red-500 text-red-500 rounded hover:bg-red-50 text-sm">
+                    Delete
                   </button>
                 </td>
               </tr>
@@ -124,4 +119,4 @@ const Complaint = () => {
   );
 };
 
-export default Complaint;
+export default VolunteerApplication;

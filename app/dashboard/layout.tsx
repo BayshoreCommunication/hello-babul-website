@@ -9,9 +9,9 @@ export default function DashboardLayout({
   return (
     <html lang="en">
       <body className="">
-        <main className="flex relative">
+        <main className="flex relative h-screen overflow-hidden">
           <SideBar />
-          <div className="flex-1 bg-green-200 p-8 space-y-8">
+          <div className="flex-1 bg-[#F0F2F5] p-8 space-y-8 h-full">
             <TopBar />
             {children}
           </div>

@@ -43,7 +43,7 @@ const TopBar = () => {
       color: "bg-purple-50 text-purple-600",
     },
     {
-      label: "খেঞ্জারসক আবেদন",
+      label: "স্বেচ্ছাসেবক আবেদন ",
       value: "২২",
       icon: User,
       color: "bg-indigo-50 text-indigo-600",
@@ -53,19 +53,25 @@ const TopBar = () => {
   return (
     <div className="flex-1 overflow-auto">
       <div className="">
-        <h1 className="text-4xl font-bold mb-8">ড্যাশবোর্ড</h1>
+        <h1 className="text-4xl font-bold pb-3 border-b border-gray-300 mb-6 text-black">
+          ড্যাশবোর্ড
+        </h1>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-6 gap-4 ">
           {stats.map((stat, idx) => (
-            <div key={idx} className="bg-gray-300 rounded-lg p-6 shadow-sm">
-              <div
-                className={`w-10 h-10 ${stat.color} rounded-lg flex items-center justify-center mb-3`}
-              >
-                <stat.icon size={20} />
+            <div key={idx} className="bg-white rounded-lg p-6 shadow-sm">
+              <div className="flex items-center gap-3 mb-3">
+                <div
+                  className={`w-10 h-10 ${stat.color} rounded-lg flex items-center justify-center shrink-0`}
+                >
+                  <stat.icon size={20} />
+                </div>
+                <div className="text-base text-gray-600 ">{stat.label}</div>
               </div>
-              <div className="text-sm text-gray-600 mb-1">{stat.label}</div>
-              <div className="text-3xl font-bold">{stat.value}</div>
+              <div className="text-3xl font-bold text-black text-center">
+                {stat.value}
+              </div>
             </div>
           ))}
         </div>
