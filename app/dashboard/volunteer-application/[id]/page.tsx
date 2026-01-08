@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, notFound } from "next/navigation";
 import {
-  AlertCircle,
   User,
   Phone,
   MapPin,
@@ -13,43 +13,76 @@ import {
 import Image from "next/image";
 
 interface VolunteerApplication {
-  id: string;
-  fullName: string;
-  fatherName: string;
-  motherName: string;
-  dateOfBirth: string;
+  _id: string;
+  fullname: string;
+  fathername: string;
+  mothername: string;
+  dateofbirth: string;
   mobile: string;
   education: string;
   area: string;
-  photo: string;
+  media?: string;
 }
 
-const VolunteerApplications: React.FC = () => {
+export default function VolunteerApplicationDetailsPage() {
+  const params = useParams();
+  const id = params?.id as string;
+
+  const [data, setData] = useState<VolunteerApplication | null>(null);
+  const [loading, setLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
 
-  const report: VolunteerApplication = {
-    id: "VA-1023",
-    fullName: "আবু কাওসার",
-    fatherName: "মোঃ রহমান",
-    motherName: "মোছাঃ রিনা বেগম",
-    dateOfBirth: "1996-05-12",
-    mobile: "017XXXXXXXX",
-    education: "Bachelor Degree",
-    area: "ওয়ার্ড ১২, ঢাকা",
-    photo: "/avatar.jpg",
-  };
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://hello-babul-backend.vercel.app/api/volunteers/${id}`,
+          { cache: "no-store" }
+        );
+
+        if (!res.ok) {
+          notFound();
+          return;
+        }
+
+        const result = await res.json();
+        setData(result.data ?? result);
+      } catch (error) {
+        console.error(error);
+        notFound();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="p-10 text-center text-gray-600">
+        তথ্য লোড হচ্ছে...
+      </div>
+    );
+  }
+
+  if (!data) {
+    notFound();
+  }
 
   const infoList = [
-    { icon: <User />, label: "পিতার নাম", value: report.fatherName },
-    { icon: <User />, label: "মাতার নাম", value: report.motherName },
-    { icon: <Calendar />, label: "জন্মতারিখ", value: report.dateOfBirth },
+    { icon: <User />, label: "পিতার নাম", value: data.fathername },
+    { icon: <User />, label: "মাতার নাম", value: data.mothername },
+    { icon: <Calendar />, label: "জন্মতারিখ", value: data.dateofbirth },
     {
       icon: <GraduationCap />,
       label: "শিক্ষাগত যোগ্যতা",
-      value: report.education,
+      value: data.education,
     },
-    { icon: <Phone />, label: "মোবাইল নম্বর", value: report.mobile },
-    { icon: <MapPin />, label: "এরিয়া / ওয়ার্ড", value: report.area },
+    { icon: <Phone />, label: "মোবাইল নম্বর", value: data.mobile },
+    { icon: <MapPin />, label: "এরিয়া / ওয়ার্ড", value: data.area },
   ];
 
   return (
@@ -59,11 +92,11 @@ const VolunteerApplications: React.FC = () => {
         <div className="flex items-center gap-3">
           <User className="w-8 h-8 text-blue-600" />
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-            Volunteer Application
+            স্বেচ্ছাসেবক আবেদন বিস্তারিত
           </h1>
         </div>
         <span className="text-sm text-gray-500">
-          Application ID: {report.id}
+          ID: {data._id.slice(-8)}
         </span>
       </div>
 
@@ -76,9 +109,9 @@ const VolunteerApplications: React.FC = () => {
           </h3>
 
           <div className="relative w-60 h-60 rounded-lg overflow-hidden border-2 border-gray-200 bg-gray-100 flex items-center justify-center">
-            {!imageError ? (
+            {data.media && !imageError ? (
               <Image
-                src={report.photo}
+                src={data.media}
                 alt="Volunteer Photo"
                 fill
                 className="object-cover"
@@ -90,7 +123,7 @@ const VolunteerApplications: React.FC = () => {
           </div>
 
           <p className="mt-4 text-lg font-medium text-gray-800">
-            {report.fullName}
+            {data.fullname}
           </p>
         </div>
 
@@ -107,7 +140,7 @@ const VolunteerApplications: React.FC = () => {
               <div>
                 <p className="text-sm text-gray-500">{item.label}</p>
                 <p className="text-base font-medium text-gray-800">
-                  {item.value}
+                  {item.value || "—"}
                 </p>
               </div>
             </div>
@@ -116,6 +149,4 @@ const VolunteerApplications: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default VolunteerApplications;
+}
