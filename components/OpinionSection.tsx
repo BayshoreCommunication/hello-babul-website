@@ -123,7 +123,9 @@ export default function OpinionSection() {
                         ${isActive ? "border-green-700" : "border-green-600"}
                       `}
                     >
-                      {isActive && <span className="h-3 w-3 rounded-full bg-green-700" />}
+                      {isActive && (
+                        <span className="h-3 w-3 rounded-full bg-green-700" />
+                      )}
                     </span>
                     <span className="text-[#018635] font-medium">{option}</span>
                   </label>
@@ -148,14 +150,19 @@ export default function OpinionSection() {
           onClose={() => setOpen(false)}
           title="আপনার মতামত"
         >
-          <form onSubmit={handleSubmit} className="p-6 md:p-10 flex flex-col gap-6 text-white">
+          <form
+            onSubmit={handleSubmit}
+            className="p-6 md:p-10 flex flex-col gap-6 text-white"
+          >
             {/* Full Name */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
               <label className="md:w-1/4 text-lg">পূর্ণ নাম</label>
               <input
                 type="text"
                 value={formData.fullname}
-                onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, fullname: e.target.value })
+                }
                 className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
               />
             </div>
@@ -166,7 +173,9 @@ export default function OpinionSection() {
               <input
                 type="tel"
                 value={formData.mobile}
-                onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, mobile: e.target.value })
+                }
                 className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
               />
             </div>
@@ -177,7 +186,9 @@ export default function OpinionSection() {
               <input
                 type="text"
                 value={formData.area}
-                onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, area: e.target.value })
+                }
                 className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
               />
             </div>
@@ -188,7 +199,9 @@ export default function OpinionSection() {
               <textarea
                 rows={6}
                 value={formData.comment}
-                onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, comment: e.target.value })
+                }
                 placeholder={`${selected} সম্পর্কে বিস্তারিত লিখুন`}
                 className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 resize-none focus:ring-2 focus:ring-yellow-400"
               />
@@ -221,15 +234,20 @@ export default function OpinionSection() {
                 stroke="currentColor"
                 strokeWidth={2.5}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
 
             <h2 className="mt-6 text-xl md:text-2xl font-semibold text-[#FED525]">
-              আপনার মতামত সফলভাবে জমা হয়েছে
+              ধন্যবাদ! আপনার অভিযোগ/পরামর্শ আমরা গ্রহণ করেছি।
             </h2>
             <p className="mt-3 text-sm md:text-base text-gray-200">
-              জনগণের সেবায় আপনাদের সহযোগিতাই আমাদের শক্তি হিসেবে কাজ করে
+              জনগণের সমস্যার দ্রুত সমাধানে সংশ্লিষ্ট বিভাগ ইতোমধ্যে পদক্ষেপ
+              নিচ্ছে প্রয়োজন হলে আমরা আপনার সঙ্গে যোগাযোগ করব।
             </p>
           </div>
         </div>
@@ -237,4 +255,3 @@ export default function OpinionSection() {
     </>
   );
 }
-  

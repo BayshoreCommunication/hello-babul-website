@@ -207,7 +207,7 @@ export default function HeroSection() {
         </CustomModal>
       )}
 
-      {/* ================= SUCCESS POPUP (EXACT SAME) ================= */}
+      {/* ================= SUCCESS POPUP ================= */}
       {successOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
           <div className="w-full max-w-2xl rounded-xl border border-white/20 bg-[#0b1f1f] p-10 text-center shadow-lg">
@@ -220,16 +220,20 @@ export default function HeroSection() {
                 stroke="currentColor"
                 strokeWidth={2.5}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
 
             <h2 className="mt-6 text-xl md:text-2xl font-semibold text-[#FED525]">
-              আপনার আবেদন সফলভাবে গ্রহণ করা হয়েছে
+              ধন্যবাদ! আপনার অভিযোগ/পরামর্শ আমরা গ্রহণ করেছি।
             </h2>
-
             <p className="mt-3 text-sm md:text-base text-gray-200">
-              জনগণের সেবায় আপনাদের সহযোগিতাই আমাদের শক্তি হিসেবে কাজ করে
+              জনগণের সমস্যার দ্রুত সমাধানে সংশ্লিষ্ট বিভাগ ইতোমধ্যে পদক্ষেপ
+              নিচ্ছে প্রয়োজন হলে আমরা আপনার সঙ্গে যোগাযোগ করব।
             </p>
           </div>
         </div>
