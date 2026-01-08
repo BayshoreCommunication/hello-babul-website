@@ -1,12 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import CustomModal from "./CustomModal";
+
+interface FormData {
+  fullname: string;
+  fathername: string;
+  mothername: string;
+  dateofbirth: string;
+  mobile: string;
+  area: string;
+  education: string;
+  agree: boolean;
+  media: File | null;
+}
+
+interface TeamMember {
+  name: string;
+  role: string;
+  desc: string;
+  img: string;
+}
 
 export default function Team() {
   const [open, setOpen] = useState(false);
-  const [successOpen, setSuccessOpen] = useState(false); // success popup
-  const [formData, setFormData] = useState({
+  const [successOpen, setSuccessOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
     fullname: "",
     fathername: "",
     mothername: "",
@@ -17,35 +37,36 @@ export default function Team() {
     agree: false,
     media: null,
   });
-  const [loading, setLoading] = useState(false);
 
-  const team = [
+  const team: TeamMember[] = [
     { name: "মোঃ আরিফুল ইসলাম", role: "কমিউনিটি কো-অর্ডিনেটর", desc: "স্বেচ্ছাসেবী কার্যক্রম পরিচালনা ও জনগণের সমস্যা দ্রুত সমাধানে কাজ করেন", img: "/image/team/img1.png" },
     { name: "সাবিনা আক্তার", role: "স্বাস্থ্য কর্মী", desc: "স্বাস্থ্য ও পরিচ্ছন্নতা সংক্রান্ত অভিযোগ যাচাই ও উদ্যোগ নেন", img: "/image/team/img2.png" },
     { name: "মোঃ মাসুদুল ইসলাম", role: "নিরাপত্তা/তথ্য সেবা কর্মী", desc: "এলাকার নিরাপত্তা ও জরুরি পরিস্থিতিতে সহযোগিতামূলক ভূমিকা পালন করেন", img: "/image/team/img3.png" },
     { name: "মাহমুদ হাসান", role: "অভিযোগ ডেস্ক প্রধান", desc: "নাগরিক অভিযোগ গ্রহণ, ফলো-আপ ও সমাধান নিশ্চিত করেন", img: "/image/team/img4.png" },
   ];
 
-  const handleChange = (e) => {
+  // Type-safe handleChange
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked, files } = e.target;
 
     if (type === "checkbox") {
-      setFormData({ ...formData, [name]: checked });
+      setFormData(prev => ({ ...prev, [name]: checked }));
     } else if (type === "file") {
-      setFormData({ ...formData, [name]: files[0] });
+      setFormData(prev => ({ ...prev, [name]: files ? files[0] : null }));
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData(prev => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       const data = new FormData();
       Object.keys(formData).forEach(key => {
-        if (formData[key]) data.append(key, formData[key]);
+        const value = formData[key as keyof FormData];
+        if (value !== null) data.append(key, value as any);
       });
 
       const res = await fetch("https://hello-babul-backend.vercel.app/api/volunteers", {
@@ -55,7 +76,7 @@ export default function Team() {
 
       if (!res.ok) throw new Error("Failed to submit form");
 
-      // Reset form
+      // Reset form and show success
       setFormData({
         fullname: "",
         fathername: "",
@@ -68,10 +89,9 @@ export default function Team() {
         media: null,
       });
 
-      setOpen(false); // close form modal
-      setSuccessOpen(true); // open success popup
-
-      setTimeout(() => setSuccessOpen(false), 3000); // auto-close after 3 sec
+      setOpen(false);
+      setSuccessOpen(true);
+      setTimeout(() => setSuccessOpen(false), 3000);
     } catch (err) {
       console.error(err);
       alert("ফর্ম জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
@@ -79,6 +99,16 @@ export default function Team() {
       setLoading(false);
     }
   };
+
+  const fields: { label: string; name: keyof FormData }[] = [
+    { label: "পূর্ণ নাম", name: "fullname" },
+    { label: "পিতার নাম", name: "fathername" },
+    { label: "মাতার নাম", name: "mothername" },
+    { label: "জন্মতারিখ", name: "dateofbirth" },
+    { label: "মোবাইল নম্বর", name: "mobile" },
+    { label: "শিক্ষাগত যোগ্যতা", name: "education" },
+    { label: "এরিয়া / ওয়ার্ড", name: "area" },
+  ];
 
   return (
     <>
@@ -90,8 +120,8 @@ export default function Team() {
 
           {/* Cards */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member, index) => (
-              <div key={index} className="border border-green-200 rounded-lg overflow-hidden bg-[#FFFDEA]">
+            {team.map((member, i) => (
+              <div key={i} className="border border-green-200 rounded-lg overflow-hidden bg-[#FFFDEA]">
                 <img src={member.img} alt={member.name} className="p-8 pb-0" />
                 <div className="p-4">
                   <h3 className="font-semibold text-lg text-gray-800">{member.name}</h3>
@@ -122,21 +152,13 @@ export default function Team() {
       {open && (
         <CustomModal isOpen={open} onClose={() => setOpen(false)} title=" স্বেচ্ছাসেবক আবেদন ফর্ম">
           <form onSubmit={handleSubmit} className="px-6 py-3 flex flex-col gap-6 text-white">
-            {[
-              { label: "পূর্ণ নাম", name: "fullname" },
-              { label: "পিতার নাম", name: "fathername" },
-              { label: "মাতার নাম", name: "mothername" },
-              { label: "জন্মতারিখ", name: "dateofbirth" },
-              { label: "মোবাইল নম্বর", name: "mobile" },
-              { label: "শিক্ষাগত যোগ্যতা", name: "education" },
-              { label: "এরিয়া / ওয়ার্ড", name: "area" },
-            ].map((field, i) => (
+            {fields.map((field, i) => (
               <div key={i} className="flex flex-col md:flex-row gap-4 items-center">
                 <label className="md:w-1/4 text-lg">{field.label}</label>
                 <input
                   type="text"
                   name={field.name}
-                  value={formData[field.name] || ""}
+                  value={formData[field.name] as string}
                   onChange={handleChange}
                   placeholder={field.label}
                   className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400 text-white placeholder-white/50"
@@ -192,7 +214,7 @@ export default function Team() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                strokeWidth="2.5"
+                strokeWidth={2.5}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
