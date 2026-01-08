@@ -45,28 +45,28 @@ export default function Team() {
 
   const team: TeamMember[] = [
     {
-      name: "মোঃ আরিফুল ইসলাম",
+      name: "মেসবাহুল আলম",
       role: "কমিউনিটি কো-অর্ডিনেটর",
       desc: "স্বেচ্ছাসেবী কার্যক্রম পরিচালনা ও জনগণের সমস্যা দ্রুত সমাধানে কাজ করেন",
-      img: "/image/team/img1.png",
+      img: "/image/team/img1.jpg",
     },
     {
-      name: "সাবিনা আক্তার",
+      name: "মো: মাহফুজুল হক",
       role: "স্বাস্থ্য কর্মী",
       desc: "স্বাস্থ্য ও পরিচ্ছন্নতা সংক্রান্ত অভিযোগ যাচাই ও উদ্যোগ নেন",
-      img: "/image/team/img2.png",
+      img: "/image/team/img2.jpg",
     },
     {
-      name: "মোঃ মাসুদুল ইসলাম",
+      name: "মিজানুর রহমান মিন্টু",
       role: "নিরাপত্তা/তথ্য সেবা কর্মী",
       desc: "এলাকার নিরাপত্তা ও জরুরি পরিস্থিতিতে সহযোগিতামূলক ভূমিকা পালন করেন",
-      img: "/image/team/img3.png",
+      img: "/image/team/img3.jpg",
     },
     {
-      name: "মাহমুদ হাসান",
+      name: "মোহাব্বত চৌধুরী তামিম",
       role: "অভিযোগ ডেস্ক প্রধান",
       desc: "নাগরিক অভিযোগ গ্রহণ, ফলো-আপ ও সমাধান নিশ্চিত করেন",
-      img: "/image/team/img4.png",
+      img: "/image/team/img4.jpg",
     },
   ];
 
@@ -163,7 +163,7 @@ export default function Team() {
                 key={i}
                 className="border border-green-200 rounded-lg overflow-hidden bg-[#FFFDEA]"
               >
-                <img src={member.img} alt={member.name} className="p-8 pb-0" />
+                <img src={member.img} alt={member.name} className="p-8 pb-0 h-[300px] w-full object-top" />
                 <div className="p-4">
                   <h3 className="font-semibold text-lg text-gray-800">
                     {member.name}
