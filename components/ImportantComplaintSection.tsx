@@ -9,6 +9,7 @@ export default function ImportantComplaintSection() {
   const [typeOfSuggest, setTypeOfSuggest] = useState(""); // type of complaint
   const [successOpen, setSuccessOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filePreview, setFilePreview] = useState<string | null>(null); // file preview
 
   const [formData, setFormData] = useState({
     fullname: "",
@@ -30,6 +31,19 @@ export default function ImportantComplaintSection() {
   const handleOpen = (text: string) => {
     setTypeOfSuggest(text);
     setOpen(true);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setFormData({ ...formData, file });
+
+    // Preview for images and videos
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setFilePreview(url);
+    } else {
+      setFilePreview(null);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -75,6 +89,7 @@ export default function ImportantComplaintSection() {
         file: null,
         anonymous: false,
       });
+      setFilePreview(null);
       setTypeOfSuggest("");
       setOpen(false);
       setSuccessOpen(true);
@@ -192,12 +207,31 @@ export default function ImportantComplaintSection() {
                 <input
                   type="file"
                   className="hidden"
-                  onChange={(e) =>
-                    setFormData({ ...formData, file: e.target.files?.[0] || null })
-                  }
+                  onChange={handleFileChange}
+                  accept="image/*,video/*"
                 />
               </label>
             </div>
+
+            {/* File Preview */}
+            {filePreview && (
+              <div className="mt-2 md:ml-1 text-left">
+                {formData.file?.type.startsWith("image/") && (
+                  <img
+                    src={filePreview}
+                    alt="preview"
+                    className="mt-1 w-32 h-32 object-cover rounded-lg border border-white/50"
+                  />
+                )}
+                {formData.file?.type.startsWith("video/") && (
+                  <video
+                    src={filePreview}
+                    className="mt-1 w-64 h-40 rounded-lg border border-white/50"
+                    controls
+                  />
+                )}
+              </div>
+            )}
 
             {/* Anonymous */}
             <div className="flex items-center gap-3 mt-2">

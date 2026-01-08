@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useState, ChangeEvent, FormEvent, useRef } from "react";
 import CustomModal from "./CustomModal";
+import { FiCalendar } from "react-icons/fi";
 
 interface FormData {
   fullname: string;
@@ -26,7 +27,9 @@ export default function Team() {
   const [open, setOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [filePreview, setFilePreview] = useState<string | null>(null); // For live preview
+  const [filePreview, setFilePreview] = useState<string | null>(null);
+
+  const dobInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<FormData>({
     fullname: "",
@@ -47,7 +50,6 @@ export default function Team() {
     { name: "মাহমুদ হাসান", role: "অভিযোগ ডেস্ক প্রধান", desc: "নাগরিক অভিযোগ গ্রহণ, ফলো-আপ ও সমাধান নিশ্চিত করেন", img: "/image/team/img4.png" },
   ];
 
-  // Type-safe handleChange with file preview
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, type, checked, files, value } = e.target;
 
@@ -85,7 +87,7 @@ export default function Team() {
 
       if (!res.ok) throw new Error("Failed to submit form");
 
-      // Reset form and preview
+      // Reset form
       setFormData({
         fullname: "",
         fathername: "",
@@ -128,7 +130,6 @@ export default function Team() {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800">আমাদের সাপোর্ট টিম</h2>
           <p className="mt-3 text-gray-600">জনগণের সেবা নিশ্চিত করতে আমাদের নিবেদিত কর্মীরা সর্বদা প্রস্তুত</p>
 
-          {/* Cards */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map((member, i) => (
               <div key={i} className="border border-green-200 rounded-lg overflow-hidden bg-[#FFFDEA]">
@@ -144,7 +145,6 @@ export default function Team() {
             ))}
           </div>
 
-          {/* CTA */}
           <div className="mt-16">
             <h3 className="font-bold text-[28px] md:text-[40px] text-black">আমাদের স্বেচ্ছাসেবক হিসেবে যোগ দিন</h3>
             <p className="mt-4 text-gray-600 md:text-[20px] max-w-3xl mx-auto">নিবন্ধন করে আজই আমাদের টিমের একজন হয়ে উঠুন।</p>
@@ -160,33 +160,50 @@ export default function Team() {
 
       {/* ================= FORM MODAL ================= */}
       {open && (
-        <CustomModal isOpen={open} onClose={() => setOpen(false)} title=" স্বেচ্ছাসেবক আবেদন ফর্ম">
+        <CustomModal isOpen={open} onClose={() => setOpen(false)} title="স্বেচ্ছাসেবক আবেদন ফর্ম">
           <form onSubmit={handleSubmit} className="px-6 py-3 flex flex-col gap-6 text-white">
             {fields.map((field, i) => (
-              <div key={i} className="flex flex-col md:flex-row gap-4 items-center">
+              <div key={i} className="flex flex-col md:flex-row gap-4 items-center relative w-full">
                 <label className="md:w-1/4 text-lg">{field.label}</label>
-                <input
-                  type="text"
-                  name={field.name}
-                  value={formData[field.name] as string}
-                  onChange={handleChange}
-                  placeholder={field.label}
-                  className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400 text-white placeholder-white/50"
-                  required
-                />
+
+                {field.name === "dateofbirth" ? (
+                  <div className="relative w-full md:flex-1">
+                    <input
+                      type="date"
+                      name={field.name}
+                      ref={dobInputRef}
+                      value={formData.dateofbirth}
+                      onChange={handleChange}
+                      className="w-full bg-[#0b1f1f] border border-white/70 rounded-lg px-4 py-3 pr-10 text-white focus:ring-2 focus:ring-yellow-400"
+                      required
+                    />
+                    <FiCalendar
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white cursor-pointer"
+                      onClick={() => dobInputRef.current?.showPicker?.()}
+                    />
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    name={field.name}
+                    value={formData[field.name] as string}
+                    onChange={handleChange}
+                    className="w-full md:flex-1 bg-[#0b1f1f] border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400 text-white"
+                    required
+                  />
+                )}
               </div>
             ))}
 
             {/* Image Upload */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
               <label className="md:w-1/4 text-lg">ছবি</label>
-              <label className="cursor-pointer bg-gray-200 text-black px-6 py-3 rounded-lg">
+              <label className="cursor-pointer bg-gray-200 text-black px-6 py-3 rounded-lg w-full text-center">
                 Upload Image
                 <input type="file" name="media" onChange={handleChange} className="hidden" accept="image/*" />
               </label>
             </div>
 
-            {/* Live Preview */}
             {filePreview && (
               <div className="mt-2 text-left md:ml-1">
                 <p className="text-sm text-gray-300">Selected Image Preview:</p>
@@ -207,7 +224,6 @@ export default function Team() {
               <p>আমি স্বেচ্ছাসেবক হিসেবে দায়িত্বশীলভাবে কাজ করার অঙ্গীকার করছি</p>
             </div>
 
-            {/* Submit */}
             <div className="flex justify-center pt-6">
               <button
                 type="submit"
@@ -226,14 +242,7 @@ export default function Team() {
         <CustomModal isOpen={successOpen} onClose={() => setSuccessOpen(false)} title="">
           <div className="w-full max-w-2xl rounded-xl border border-white/20 bg-[#0b1f1f] p-10 text-center shadow-lg mx-auto mt-6">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             </div>
