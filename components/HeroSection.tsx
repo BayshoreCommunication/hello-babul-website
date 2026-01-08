@@ -15,7 +15,6 @@ export default function HeroSection() {
     fullname: "",
     mobile: "",
     area: "",
-    typeOfSuggest: "",
     comment: "",
     file: null as File | null,
   });
@@ -24,13 +23,7 @@ export default function HeroSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !formData.fullname ||
-      !formData.mobile ||
-      !formData.area ||
-      !formData.typeOfSuggest ||
-      !formData.comment
-    ) {
+    if (!formData.fullname || !formData.mobile || !formData.area || !formData.comment) {
       toast.error("Please fill all required fields!");
       return;
     }
@@ -41,9 +34,14 @@ export default function HeroSection() {
     data.append("fullname", formData.fullname);
     data.append("mobile", formData.mobile);
     data.append("area", formData.area);
-    data.append("typeOfSuggest", formData.typeOfSuggest);
     data.append("comment", formData.comment);
-    if (formData.file) data.append("media", formData.file);
+
+    // 🔒 always send general
+    data.append("typeOfSuggest", "general");
+
+    if (formData.file) {
+      data.append("media", formData.file);
+    }
 
     try {
       const res = await fetch(
@@ -65,7 +63,6 @@ export default function HeroSection() {
         fullname: "",
         mobile: "",
         area: "",
-        typeOfSuggest: "",
         comment: "",
         file: null,
       });
@@ -77,7 +74,7 @@ export default function HeroSection() {
     }
   };
 
-  // Auto-close success modal after 3 seconds
+  // Auto-close success modal after 3 seconds (UNCHANGED)
   useEffect(() => {
     if (successOpen) {
       const timer = setTimeout(() => setSuccessOpen(false), 3000);
@@ -103,12 +100,7 @@ export default function HeroSection() {
 
             <div className="text-center">
               <h1 className="text-[64px] font-bold flex items-center gap-2 justify-center">
-                <Image
-                  src="/image/hero/icon.png"
-                  alt="icon"
-                  width={48}
-                  height={48}
-                />
+                <Image src="/image/hero/icon.png" alt="icon" width={48} height={48} />
                 Hello Babul
               </h1>
               <p className="mt-4 text-[48px] leading-none max-w-2xl">
@@ -119,28 +111,11 @@ export default function HeroSection() {
               </p>
             </div>
           </div>
-
-          {/* Mobile */}
-          <div className="md:hidden px-8 py-8 text-center">
-            <Image
-              src="/image/hero/babul-phone.png"
-              alt="Babul"
-              width={800}
-              height={600}
-              className="w-full rounded-lg"
-            />
-            <p className="mt-6 text-lg">
-              অভিযোগ করুন, পরামর্শ দিন — পরিবর্তনে আপনার অংশগ্রহণই সবচেয়ে
-              শক্তিশালী শক্তি।
-            </p>
-            <p className="mt-4 text-[#FED525]">-- শহিদুল ইসলাম বাবুল</p>
-          </div>
         </div>
 
         <div className="bg-[#018635] text-center px-6 py-10">
           <p className="text-lg md:text-[40px] text-[#FED525] max-w-6xl mx-auto leading-none">
-            আপনার মতামত সরাসরি আমার টিমের কাছে পৌঁছাবে, প্রয়োজন হলে আমরা যোগাযোগ
-            করব
+            আপনার মতামত সরাসরি আমার টিমের কাছে পৌঁছাবে, প্রয়োজন হলে আমরা যোগাযোগ করব
           </p>
 
           <button
@@ -163,120 +138,64 @@ export default function HeroSection() {
             onSubmit={handleSubmit}
             className="p-6 md:p-10 bg-black text-white flex flex-col gap-6"
           >
-            {/* Fullname */}
-            <div className="flex flex-col md:flex-row gap-4">
-              <label className="md:w-1/4">পূর্ণ নাম</label>
+            <input
+              type="text"
+              placeholder="পূর্ণ নাম"
+              value={formData.fullname}
+              onChange={(e) => setFormData({ ...formData, fullname: e.target.value })}
+              required
+              className="bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
+            />
+
+            <input
+              type="tel"
+              placeholder="মোবাইল নম্বর"
+              value={formData.mobile}
+              onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+              required
+              className="bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
+            />
+
+            <input
+              type="text"
+              placeholder="এরিয়া / ওয়ার্ড"
+              value={formData.area}
+              onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+              required
+              className="bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
+            />
+
+            <textarea
+              rows={5}
+              placeholder="আপনার অভিযোগ/পরামর্শ লিখুন"
+              value={formData.comment}
+              onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+              required
+              className="bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
+            />
+
+            <label className="cursor-pointer bg-gray-200 text-black px-6 py-3 rounded-lg w-fit">
+              Upload file
               <input
-                type="text"
-                value={formData.fullname}
-                onChange={(e) =>
-                  setFormData({ ...formData, fullname: e.target.value })
-                }
-                required
-                placeholder="পূর্ণ নাম"
-                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
+                type="file"
+                accept="image/*,.pdf"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0] || null;
+                  setFormData({ ...formData, file });
+                  setFilePreview(file ? URL.createObjectURL(file) : null);
+                }}
               />
-            </div>
+            </label>
 
-            {/* Mobile */}
-            <div className="flex flex-col md:flex-row gap-4">
-              <label className="md:w-1/4">মোবাইল নম্বর</label>
-              <input
-                type="tel"
-                value={formData.mobile}
-                onChange={(e) =>
-                  setFormData({ ...formData, mobile: e.target.value })
-                }
-                required
-                placeholder="মোবাইল নম্বর"
-                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
-              />
-            </div>
-
-            {/* Area */}
-            <div className="flex flex-col md:flex-row gap-4">
-              <label className="md:w-1/4">এরিয়া / ওয়ার্ড</label>
-              <input
-                type="text"
-                value={formData.area}
-                onChange={(e) =>
-                  setFormData({ ...formData, area: e.target.value })
-                }
-                required
-                placeholder="এরিয়া / ওয়ার্ড"
-                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
-              />
-            </div>
-
-            {/* Type of Suggest */}
-            <div className="flex flex-col md:flex-row gap-4">
-              <label className="md:w-1/4">ধরন</label>
-              <select
-                value={formData.typeOfSuggest}
-                onChange={(e) =>
-                  setFormData({ ...formData, typeOfSuggest: e.target.value })
-                }
-                required
-                className="flex-1 bg-black border border-white/60 rounded-lg px-4 py-3 text-white"
-              >
-                <option value="">-- নির্বাচন করুন --</option>
-                <option value="complaint">অভিযোগ</option>
-                <option value="suggestion">পরামর্শ</option>
-              </select>
-            </div>
-
-            {/* Comment */}
-            <div className="flex flex-col md:flex-row gap-4">
-              <label className="md:w-1/4">আপনার অভিযোগ/পরামর্শ</label>
-              <textarea
-                rows={5}
-                value={formData.comment}
-                onChange={(e) =>
-                  setFormData({ ...formData, comment: e.target.value })
-                }
-                required
-                placeholder="আপনার অভিযোগ/পরামর্শ লিখুন"
-                className="flex-1 bg-transparent border border-white/60 rounded-lg px-4 py-3 text-white placeholder-white/50"
-              />
-            </div>
-
-            {/* File Upload */}
-            <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="md:w-1/4">ফাইল আপলোড (ঐচ্ছিক)</label>
-              <label className="cursor-pointer bg-gray-200 text-black px-6 py-3 rounded-lg w-fit">
-                Upload file
-                <input
-                  type="file"
-                  accept="image/*,.pdf"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0] || null;
-                    setFormData({ ...formData, file });
-                    if (file) setFilePreview(URL.createObjectURL(file));
-                    else setFilePreview(null);
-                  }}
-                />
-              </label>
-            </div>
-
-            {/* File preview */}
             {filePreview && (
-              <div className="mt-2 text-left">
-                <p className="text-sm text-gray-300">Selected file:</p>
-                {formData.file?.type.startsWith("image/") && (
-                  <img
-                    src={filePreview}
-                    alt="preview"
-                    className="mt-1 w-32 h-32 object-cover rounded-lg border border-white/50"
-                  />
-                )}
-                {formData.file?.type === "application/pdf" && (
-                  <p className="text-white mt-1">{formData.file.name}</p>
-                )}
-              </div>
+              <img
+                src={filePreview}
+                alt="preview"
+                className="w-32 h-32 object-cover rounded-lg border border-white/50"
+              />
             )}
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
@@ -288,7 +207,7 @@ export default function HeroSection() {
         </CustomModal>
       )}
 
-      {/* ================= SUCCESS POPUP ================= */}
+      {/* ================= SUCCESS POPUP (EXACT SAME) ================= */}
       {successOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
           <div className="w-full max-w-2xl rounded-xl border border-white/20 bg-[#0b1f1f] p-10 text-center shadow-lg">
