@@ -1,142 +1,255 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CustomModal from "./CustomModal";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ImportantComplaintSection() {
   const [open, setOpen] = useState(false);
-  const [label, setLabel] = useState("");
+  const [typeOfSuggest, setTypeOfSuggest] = useState(""); // type of complaint
+  const [successOpen, setSuccessOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    fullname: "",
+    mobile: "",
+    area: "",
+    comment: "",
+    file: null as File | null,
+    anonymous: false,
+  });
+
+  // Auto-close success popup after 3 seconds
+  useEffect(() => {
+    if (successOpen) {
+      const timer = setTimeout(() => setSuccessOpen(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [successOpen]);
 
   const handleOpen = (text: string) => {
-    setLabel(text);
+    setTypeOfSuggest(text);
     setOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validation
+    if (!formData.anonymous && !formData.fullname.trim())
+      return toast.error("পূর্ণ নাম লিখুন");
+    if (!formData.anonymous && !formData.mobile.trim())
+      return toast.error("মোবাইল নম্বর লিখুন");
+    if (!formData.area.trim()) return toast.error("এরিয়া/ওয়ার্ড লিখুন");
+    if (!typeOfSuggest.trim()) return toast.error("আপনার অভিযোগ নির্বাচন করুন");
+    if (!formData.comment.trim()) return toast.error("মন্তব্য লিখুন");
+
+    setLoading(true);
+
+    try {
+      const data = new FormData();
+      data.append("fullname", formData.anonymous ? "Anonymous" : formData.fullname);
+      data.append("mobile", formData.anonymous ? "Anonymous" : formData.mobile);
+      data.append("area", formData.area);
+      data.append("comment", formData.comment);
+      data.append("typeOfSuggest", typeOfSuggest);
+      if (formData.file) data.append("media", formData.file);
+
+      const res = await fetch(
+        "https://hello-babul-backend.vercel.app/api/your-suggests",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.message || "সমস্যা হয়েছে");
+
+      // Reset form
+      setFormData({
+        fullname: "",
+        mobile: "",
+        area: "",
+        comment: "",
+        file: null,
+        anonymous: false,
+      });
+      setTypeOfSuggest("");
+      setOpen(false);
+      setSuccessOpen(true);
+      toast.success("আপনার আবেদন সফলভাবে জমা হয়েছে");
+    } catch (err: any) {
+      toast.error(err.message || "সমস্যা হয়েছে, আবার চেষ্টা করুন");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
+      <Toaster position="top-right" />
+
       {/* ================= IMPORTANT COMPLAINT SECTION ================= */}
       <section className="w-full bg-[#FFFDEA] px-8 py-8 md:py-16">
         <div className="mx-auto max-w-[1200px]">
           <div className="rounded-2xl border border-orange-300 bg-[#FDF5E2] px-6 py-10 md:px-12 md:py-14 text-center">
-            {/* Title */}
             <h2 className="text-2xl md:text-[40px] font-semibold text-gray-900">
-              জরুরি অভিযোগ
+              জরুরি অভিযোগ / পরামর্শ
             </h2>
-
-            {/* Subtitle */}
             <p className="mt-2 text-sm md:text-[20px] text-gray-700">
               জরুরি অভিযোগের জন্য নিচের বাটনে ক্লিক করুন
             </p>
 
-            {/* Buttons */}
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center md:text-[20px]">
-              <button
-                onClick={() => handleOpen("নারী নির্যাতন")}
-                className="rounded-md bg-[#D13212] px-6 py-3 text-white font-medium hover:bg-orange-700 transition"
-              >
-                নারী নির্যাতন
-              </button>
-
-              <button
-                onClick={() => handleOpen("অসুস্থ রোগী")}
-                className="rounded-md bg-[#D13212] px-6 py-3 text-white font-medium hover:bg-orange-700 transition"
-              >
-                অসুস্থ রোগী
-              </button>
-
-              <button
-                onClick={() => handleOpen("রাতের জরুরি সমস্যা")}
-                className="rounded-md bg-[#D13212] px-6 py-3 text-white font-medium hover:bg-orange-700 transition"
-              >
-                রাতের জরুরি সমস্যা
-              </button>
+              {["নারী নির্যাতন", "অসুস্থ রোগী", "রাতের জরুরি সমস্যা"].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => handleOpen(item)}
+                  className="rounded-md bg-[#D13212] px-6 py-3 text-white font-medium hover:bg-orange-700 transition"
+                >
+                  {item}
+                </button>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= MODAL ================= */}
+      {/* ================= FORM MODAL ================= */}
       {open && (
         <CustomModal
           isOpen={open}
           onClose={() => setOpen(false)}
-          title="আপনার অভিযোগ/পরামর্শ"
+          title={`আপনার অভিযোগ/পরামর্শ: ${typeOfSuggest}`}
         >
-          <form className="p-6 md:p-10 flex flex-col gap-6 text-white">
+          <form
+            onSubmit={handleSubmit}
+            className="p-6 md:p-10 flex flex-col gap-6 text-white"
+          >
             {/* Full Name */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="w-full md:w-1/4 text-lg font-medium">
-                পূর্ণ নাম
-              </label>
+              <label className="w-full md:w-1/4 text-lg font-medium">পূর্ণ নাম</label>
               <input
                 type="text"
+                value={formData.fullname}
+                onChange={(e) =>
+                  setFormData({ ...formData, fullname: e.target.value })
+                }
+                disabled={formData.anonymous}
                 className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
               />
             </div>
 
             {/* Mobile */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="w-full md:w-1/4 text-lg font-medium">
-                মোবাইল নম্বর
-              </label>
+              <label className="w-full md:w-1/4 text-lg font-medium">মোবাইল নম্বর</label>
               <input
                 type="tel"
+                value={formData.mobile}
+                onChange={(e) =>
+                  setFormData({ ...formData, mobile: e.target.value })
+                }
+                disabled={formData.anonymous}
                 className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
               />
             </div>
 
             {/* Area */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="w-full md:w-1/4 text-lg font-medium">
-                এরিয়া / ওয়ার্ড
-              </label>
+              <label className="w-full md:w-1/4 text-lg font-medium">এরিয়া / ওয়ার্ড</label>
               <input
                 type="text"
+                value={formData.area}
+                onChange={(e) =>
+                  setFormData({ ...formData, area: e.target.value })
+                }
                 className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
               />
             </div>
 
-            {/* Dynamic Complaint */}
-            <div className="flex flex-col md:flex-row gap-4 items-start">
-              <label className="w-full md:w-1/4 text-lg font-medium pt-2">
-                {label}
+            {/* Comment */}
+            <div>
+              <label className="text-lg font-medium mb-2 inline-block">
+                {typeOfSuggest}
               </label>
               <textarea
-                rows={8}
-                placeholder={`${label} সংক্রান্ত বিস্তারিত লিখুন`}
-                className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 resize-none focus:ring-2 focus:ring-yellow-400"
+                rows={6}
+                value={formData.comment}
+                onChange={(e) =>
+                  setFormData({ ...formData, comment: e.target.value })
+                }
+                placeholder={`${typeOfSuggest} সংক্রান্ত বিস্তারিত লিখুন`}
+                className="w-full bg-transparent border border-white/70 rounded-lg px-4 py-3 resize-none focus:ring-2 focus:ring-yellow-400"
               />
             </div>
 
             {/* Upload */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="w-full md:w-1/4 text-lg font-medium">
-                ছবি/ভিডিও
-              </label>
+              <label className="w-full md:w-1/4 text-lg font-medium">ছবি/ভিডিও</label>
               <label className="cursor-pointer inline-flex items-center gap-3 bg-gray-200 text-black px-6 py-3 rounded-lg hover:bg-gray-300 transition">
                 Upload file
-                <input type="file" className="hidden" />
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={(e) =>
+                    setFormData({ ...formData, file: e.target.files?.[0] || null })
+                  }
+                />
               </label>
             </div>
 
-            {/* Buttons */}
-            <div className="flex flex-col md:flex-row justify-center gap-4 pt-8">
+            {/* Anonymous */}
+            <div className="flex items-center gap-3 mt-2">
+              <input
+                type="checkbox"
+                checked={formData.anonymous}
+                onChange={(e) =>
+                  setFormData({ ...formData, anonymous: e.target.checked })
+                }
+              />
+              <span className="text-white">নাম গোপন রেখে আবেদন</span>
+            </div>
+
+            {/* Submit */}
+            <div className="flex justify-center pt-6">
               <button
                 type="submit"
+                disabled={loading}
                 className="bg-yellow-400 text-black font-semibold px-10 py-3 rounded-xl hover:bg-yellow-300 transition"
               >
-                জমা দিন
-              </button>
-
-              <button
-                type="button"
-                className="bg-yellow-400 text-black font-semibold px-10 py-3 rounded-xl hover:bg-yellow-300 transition"
-              >
-                নাম গোপন রেখে আবেদন
+                {loading ? "জমা হচ্ছে..." : "জমা দিন"}
               </button>
             </div>
           </form>
         </CustomModal>
+      )}
+
+      {/* ================= SUCCESS POPUP ================= */}
+      {successOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <div className="w-full max-w-2xl rounded-xl border border-white/20 bg-[#0b1f1f] p-10 text-center shadow-lg">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-700">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+
+            <h2 className="mt-6 text-xl md:text-2xl font-semibold text-[#FED525]">
+              আপনার আবেদন সফলভাবে গ্রহণ করা হয়েছে
+            </h2>
+            <p className="mt-3 text-sm md:text-base text-gray-200">
+              জনগণের সেবায় আপনাদের সহযোগিতাই আমাদের শক্তি হিসেবে কাজ করে
+            </p>
+          </div>
+        </div>
       )}
     </>
   );
