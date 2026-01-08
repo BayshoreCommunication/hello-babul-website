@@ -245,10 +245,11 @@ export default function OpinionSection() {
             </div>
 
             <h2 className="mt-6 text-xl md:text-2xl font-semibold text-[#FED525]">
-              আপনার মতামত সফলভাবে জমা হয়েছে
+              ধন্যবাদ! আপনার অভিযোগ/পরামর্শ আমরা গ্রহণ করেছি।
             </h2>
             <p className="mt-3 text-sm md:text-base text-gray-200">
-              জনগণের সেবায় আপনাদের সহযোগিতাই আমাদের শক্তি হিসেবে কাজ করে
+              জনগণের সমস্যার দ্রুত সমাধানে সংশ্লিষ্ট বিভাগ ইতোমধ্যে পদক্ষেপ
+              নিচ্ছে প্রয়োজন হলে আমরা আপনার সঙ্গে যোগাযোগ করব।
             </p>
           </div>
         </div>

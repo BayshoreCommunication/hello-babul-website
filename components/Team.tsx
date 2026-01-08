@@ -295,7 +295,7 @@ export default function Team() {
         </CustomModal>
       )}
 
-      {/* ================= SUCCESS POPUP ================= */}
+      {/* ================= SUCCESS POPUP (EXACT SAME) ================= */}
       {successOpen && (
         <CustomModal
           isOpen={successOpen}
@@ -325,7 +325,7 @@ export default function Team() {
             </h2>
 
             <p className="mt-3 text-sm md:text-base text-gray-200">
-              জনগণের সেবায় আপনাদের সহযোগিতাই আমাদের শক্তি হিসেবে কাজ করে
+              জনগণের সেবায় আপনার অংশগ্রহণকে আমরা স্বাগত জানাই
             </p>
           </div>
         </CustomModal>

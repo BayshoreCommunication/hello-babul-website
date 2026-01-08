@@ -1,97 +1,103 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { getDashboardOverview } from "@/app/actions/dashboard";
 import {
-  Mail,
-  Key,
   AlertCircle,
+  Key,
+  Mail,
   MapPin,
   MessageSquare,
   User,
-  Settings,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+
+// Type for dashboard overview data
+interface DashboardOverviewData {
+  totalVolunteers: number;
+  totalOpinions: number;
+  totalSuggestions: number;
+  generalSuggestions: number;
+  emergencySuggestions: number;
+  totalDevelopmentIdeas: number;
+  totalSubmissions: number;
+}
+
+interface DashboardOverviewResponse {
+  success: boolean;
+  data: DashboardOverviewData;
+}
+
 const TopBar = () => {
-  const [overview, setOverview] = useState<any | null>(null);
+  const [overview, setOverview] = useState<DashboardOverviewData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
-    async function load() {
-      try {
-        const res = await fetch(
-          "https://hello-babul-backend.vercel.app/api/dashboard/overview"
-        );
-        if (!res.ok) throw new Error(String(res.status));
-        const json = await res.json();
 
-        if (mounted) setOverview(json);
+    async function loadOverview() {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Use the dashboard action instead of direct fetch
+        const response: DashboardOverviewResponse = await getDashboardOverview();
+        
+        if (mounted && response.success) {
+          setOverview(response.data);
+        }
       } catch (err) {
-        console.error("Failed to fetch overview:", err);
+        console.error("Failed to fetch dashboard overview:", err);
+        if (mounted) {
+          setError(err instanceof Error ? err.message : "Failed to load dashboard data");
+        }
       } finally {
-        if (mounted) setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     }
-    load();
+
+    loadOverview();
+
     return () => {
       mounted = false;
     };
   }, []);
 
-  console.log("Overview datvcbvcbcbvcba:", overview?.data?.totalSubmissions);
-
   const stats = [
     {
       label: "সকল আবেদন",
-      value:
-        overview?.data?.totalSubmissions ??
-        overview?.data?.totalSubmissions ??
-        "১২০০",
+      value: loading ? "..." : (overview?.totalSubmissions ?? 0),
       icon: Mail,
       color: "bg-blue-50 text-blue-600",
     },
     {
-      label: "অভিযোগ",
-      value:
-        overview?.data?.totalComplaints ??
-        overview?.data?.total_complaints ??
-        overview?.data?.complaintsCount ??
-        "৪০০",
-      icon: Key,
-      color: "bg-yellow-50 text-yellow-600",
+      label: "মতামত",
+      value: loading ? "..." : (overview?.totalOpinions ?? 0),
+      icon: MessageSquare,
+      color: "bg-purple-50 text-purple-600",
     },
     {
-      label: "জরুরি অভিযোগ",
-      value:
-        overview?.fid ?? overview?.urgent ?? overview?.urgent_count ?? "২২২",
+      label: "সাধারণ পরামর্শ",
+      value: loading ? "..." : (overview?.generalSuggestions ?? 0),
+      icon: Key,
+      color: "bg-green-50 text-green-600",
+    },
+    {
+      label: "জরুরি পরামর্শ",
+      value: loading ? "..." : (overview?.emergencySuggestions ?? 0),
       icon: AlertCircle,
       color: "bg-red-50 text-red-600",
     },
     {
       label: "উন্নয়ন আইডিয়া",
-      value:
-        overview?.data?.totalDevelopmentIdeas ??
-        overview?.data?.total_development_ideas ??
-        overview?.data?.totalDevelopmentIdeas ??
-        "৬২",
+      value: loading ? "..." : (overview?.totalDevelopmentIdeas ?? 0),
       icon: MapPin,
-      color: "bg-green-50 text-green-600",
-    },
-    {
-      label: "মতামত / পরামর্শ",
-      value:
-        overview?.data?.totalOpinions ??
-        overview?.data?.total_opinions ??
-        overview?.data?.totalSuggestions ??
-        overview?.data?.total_suggestions ??
-        "৪১",
-      icon: MessageSquare,
-      color: "bg-purple-50 text-purple-600",
+      color: "bg-amber-50 text-amber-600",
     },
     {
       label: "স্বেচ্ছাসেবক আবেদন",
-      value:
-        overview?.data?.totalVolunteers ??
-        overview?.data?.total_volunteers ??
-        "২২",
+      value: loading ? "..." : (overview?.totalVolunteers ?? 0),
       icon: User,
       color: "bg-indigo-50 text-indigo-600",
     },
@@ -104,17 +110,30 @@ const TopBar = () => {
           ড্যাশবোর্ড
         </h1>
 
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+            <p className="font-semibold">Error loading dashboard data:</p>
+            <p className="text-sm">{error}</p>
+          </div>
+        )}
+
         {/* Stats Grid */}
-        <div className="grid grid-cols-6 gap-4 ">
+        <div className="grid grid-cols-6 gap-4">
           {stats.map((stat, idx) => (
-            <div key={idx} className="bg-white rounded-lg p-6 shadow-sm">
+            <div 
+              key={idx} 
+              className={`bg-white rounded-lg p-6 shadow-sm transition-opacity ${
+                loading ? "opacity-60" : "opacity-100"
+              }`}
+            >
               <div className="flex items-center gap-3 mb-3">
                 <div
                   className={`w-10 h-10 ${stat.color} rounded-lg flex items-center justify-center shrink-0`}
                 >
                   <stat.icon size={20} />
                 </div>
-                <div className="text-base text-gray-600 ">{stat.label}</div>
+                <div className="text-base text-gray-600">{stat.label}</div>
               </div>
               <div className="text-3xl font-bold text-black text-center">
                 {stat.value}
