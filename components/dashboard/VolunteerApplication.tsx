@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Mail } from "lucide-react";
+import { LuEye } from "react-icons/lu";
+import { RiDeleteBinLine } from "react-icons/ri";
+import DeleteModal from "./DeleteModal";
 
 const VolunteerApplication = () => {
   const recentApplications = [
@@ -60,6 +63,13 @@ const VolunteerApplication = () => {
     },
   ];
 
+  const [open, setOpen] = useState(false);
+
+  const handleDelete = () => {
+    // ✅ your delete logic here (API call / state update)
+    console.log("Item deleted!");
+  };
+
   return (
     <div className=" max-h-[68vh] h-full overflow-auto ">
       <div className="bg-white rounded-lg shadow-sm p-8">
@@ -105,15 +115,27 @@ const VolunteerApplication = () => {
                     {app.status}
                   </span>
                 </td>
-                <td className="py-4  text-center">
-                  <button className="px-4 py-1 border border-red-500 text-red-500 rounded hover:bg-red-50 text-sm">
-                    Delete
+                <td className="py-4  text-center space-x-3">
+                  <button className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50 ">
+                    <LuEye size={16} className=" " />
+                  </button>
+                  <button
+                    className="px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-50  "
+                    onClick={() => setOpen(true)}
+                  >
+                    <RiDeleteBinLine size={16} className=" " />
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <DeleteModal
+          open={open}
+          onClose={() => setOpen(false)}
+          onConfirm={handleDelete}
+          confirmMessage="আপনি কি নিশ্চিত এই আইটেমটি মুছে ফেলতে চান?"
+        />
       </div>
     </div>
   );

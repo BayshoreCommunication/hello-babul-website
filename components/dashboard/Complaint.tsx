@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Mail } from "lucide-react";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { LuEye } from "react-icons/lu";
+import DeleteModal from "./DeleteModal";
 
 const Complaint = () => {
   const recentApplications = [
@@ -62,6 +63,13 @@ const Complaint = () => {
     },
   ];
 
+  const [open, setOpen] = useState(false);
+
+  const handleDelete = () => {
+    // ✅ your delete logic here (API call / state update)
+    console.log("Item deleted!");
+  };
+
   return (
     <div className=" max-h-[68vh] h-full overflow-auto ">
       <div className="bg-white rounded-lg shadow-sm p-8">
@@ -82,6 +90,7 @@ const Complaint = () => {
               <th className="pb-3 text-sm font-medium text-[#949494]">
                 এলাকা / ওয়ার্ড
               </th>
+              <th className="pb-3 text-sm font-medium text-[#949494]">ধরণ</th>
               <th className="pb-3 text-sm font-medium text-[#949494]">
                 আবেদনের অবস্থা
               </th>
@@ -96,6 +105,7 @@ const Complaint = () => {
                 <td className="py-4 text-black">{app.name}</td>
                 <td className="py-4 text-black">{app.phone}</td>
                 <td className="py-4 text-black">{app.address}</td>
+
                 <td className="py-4">
                   <span
                     className={`cursor-pointer font-semibold ${
@@ -111,7 +121,10 @@ const Complaint = () => {
                   <button className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50 ">
                     <LuEye size={16} className=" " />
                   </button>
-                  <button className="px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-50 ">
+                  <button
+                    className="px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-50  "
+                    onClick={() => setOpen(true)}
+                  >
                     <RiDeleteBinLine size={16} className=" " />
                   </button>
                 </td>
@@ -119,6 +132,12 @@ const Complaint = () => {
             ))}
           </tbody>
         </table>
+        <DeleteModal
+          open={open}
+          onClose={() => setOpen(false)}
+          onConfirm={handleDelete}
+          confirmMessage="আপনি কি নিশ্চিত এই আইটেমটি মুছে ফেলতে চান?"
+        />
       </div>
     </div>
   );

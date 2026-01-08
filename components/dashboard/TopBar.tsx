@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Mail,
   Key,
@@ -9,42 +9,89 @@ import {
   User,
   Settings,
 } from "lucide-react";
-
 const TopBar = () => {
+  const [overview, setOverview] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      try {
+        const res = await fetch(
+          "https://hello-babul-backend.vercel.app/api/dashboard/overview"
+        );
+        if (!res.ok) throw new Error(String(res.status));
+        const json = await res.json();
+
+        if (mounted) setOverview(json);
+      } catch (err) {
+        console.error("Failed to fetch overview:", err);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  console.log("Overview datvcbvcbcbvcba:", overview?.data?.totalSubmissions);
+
   const stats = [
     {
       label: "সকল আবেদন",
-      value: "১২০০",
+      value:
+        overview?.data?.totalSubmissions ??
+        overview?.data?.totalSubmissions ??
+        "১২০০",
       icon: Mail,
       color: "bg-blue-50 text-blue-600",
     },
     {
       label: "অভিযোগ",
-      value: "৪০০",
+      value:
+        overview?.data?.totalComplaints ??
+        overview?.data?.total_complaints ??
+        overview?.data?.complaintsCount ??
+        "৪০০",
       icon: Key,
       color: "bg-yellow-50 text-yellow-600",
     },
     {
       label: "জরুরি অভিযোগ",
-      value: "২২২",
+      value:
+        overview?.fid ?? overview?.urgent ?? overview?.urgent_count ?? "২২২",
       icon: AlertCircle,
       color: "bg-red-50 text-red-600",
     },
     {
       label: "উন্নয়ন আইডিয়া",
-      value: "৬২",
+      value:
+        overview?.data?.totalDevelopmentIdeas ??
+        overview?.data?.total_development_ideas ??
+        overview?.data?.totalDevelopmentIdeas ??
+        "৬২",
       icon: MapPin,
       color: "bg-green-50 text-green-600",
     },
     {
       label: "মতামত / পরামর্শ",
-      value: "৪১",
+      value:
+        overview?.data?.totalOpinions ??
+        overview?.data?.total_opinions ??
+        overview?.data?.totalSuggestions ??
+        overview?.data?.total_suggestions ??
+        "৪১",
       icon: MessageSquare,
       color: "bg-purple-50 text-purple-600",
     },
     {
-      label: "স্বেচ্ছাসেবক আবেদন ",
-      value: "২২",
+      label: "স্বেচ্ছাসেবক আবেদন",
+      value:
+        overview?.data?.totalVolunteers ??
+        overview?.data?.total_volunteers ??
+        "২২",
       icon: User,
       color: "bg-indigo-50 text-indigo-600",
     },
