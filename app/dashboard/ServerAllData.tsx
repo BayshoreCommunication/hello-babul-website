@@ -127,9 +127,9 @@ const ServerAllData: React.FC = () => {
     // For suggestions, show specific type based on typeOfSuggest
     if (type === "suggestion" && item?.typeOfSuggest) {
       if (item.typeOfSuggest === "general") {
-        return "সাধারণ পরামর্শ"; // General Suggestion
+        return "সাধারণ অভিযোগ"; // General Suggestion
       } else {
-        return "জরুরি পরামর্শ"; // Urgent Suggestion
+        return "জরুরি অভিযোগ"; // Urgent Suggestion
       }
     }
 

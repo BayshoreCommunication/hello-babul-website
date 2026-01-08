@@ -43,15 +43,15 @@ export default function VolunteerApplicationDetailsPage() {
         );
 
         if (!res.ok) {
-          notFound();
+          setData(null);
           return;
         }
 
-        const result = await res.json();
-        setData(result.data ?? result);
+        const json = await res.json();
+        setData(json.data ?? json);
       } catch (error) {
         console.error(error);
-        notFound();
+        setData(null);
       } finally {
         setLoading(false);
       }
@@ -60,14 +60,10 @@ export default function VolunteerApplicationDetailsPage() {
     fetchData();
   }, [id]);
 
-  if (loading) {
-    return (
-      <div className="p-10 text-center text-gray-600">
-        তথ্য লোড হচ্ছে...
-      </div>
-    );
-  }
+  /* ------------------ NO LOADING FLASH ------------------ */
+  if (loading) return null;
 
+  /* ------------------ 404 ONLY AFTER LOAD ------------------ */
   if (!data) {
     notFound();
   }
@@ -95,9 +91,7 @@ export default function VolunteerApplicationDetailsPage() {
             স্বেচ্ছাসেবক আবেদন বিস্তারিত
           </h1>
         </div>
-        <span className="text-sm text-gray-500">
-          ID: {data._id.slice(-8)}
-        </span>
+        <span className="text-sm text-gray-500">ID: {data._id.slice(-8)}</span>
       </div>
 
       {/* Content */}
@@ -134,9 +128,7 @@ export default function VolunteerApplicationDetailsPage() {
               key={index}
               className="flex items-start gap-3 border-b last:border-b-0 pb-3 last:pb-0"
             >
-              <div className="text-blue-600 mt-1 flex-shrink-0">
-                {item.icon}
-              </div>
+              <div className="text-blue-600 mt-1">{item.icon}</div>
               <div>
                 <p className="text-sm text-gray-500">{item.label}</p>
                 <p className="text-base font-medium text-gray-800">

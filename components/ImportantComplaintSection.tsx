@@ -62,7 +62,10 @@ export default function ImportantComplaintSection() {
 
     try {
       const data = new FormData();
-      data.append("fullname", formData.anonymous ? "Anonymous" : formData.fullname);
+      data.append(
+        "fullname",
+        formData.anonymous ? "Anonymous" : formData.fullname
+      );
       data.append("mobile", formData.anonymous ? "Anonymous" : formData.mobile);
       data.append("area", formData.area);
       data.append("comment", formData.comment);
@@ -117,15 +120,17 @@ export default function ImportantComplaintSection() {
             </p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center md:text-[20px]">
-              {["নারী নির্যাতন", "অসুস্থ রোগী", "রাতের জরুরি সমস্যা"].map((item) => (
-                <button
-                  key={item}
-                  onClick={() => handleOpen(item)}
-                  className="rounded-md bg-[#D13212] px-6 py-3 text-white font-medium hover:bg-orange-700 transition"
-                >
-                  {item}
-                </button>
-              ))}
+              {["নারী নির্যাতন", "অসুস্থ রোগী", "রাতের জরুরি সমস্যা"].map(
+                (item) => (
+                  <button
+                    key={item}
+                    onClick={() => handleOpen(item)}
+                    className="rounded-md bg-[#D13212] px-6 py-3 text-white font-medium hover:bg-orange-700 transition"
+                  >
+                    {item}
+                  </button>
+                )
+              )}
             </div>
           </div>
         </div>
@@ -144,7 +149,9 @@ export default function ImportantComplaintSection() {
           >
             {/* Full Name */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="w-full md:w-1/4 text-lg font-medium">পূর্ণ নাম</label>
+              <label className="w-full md:w-1/4 text-lg font-medium">
+                পূর্ণ নাম
+              </label>
               <input
                 type="text"
                 value={formData.fullname}
@@ -158,7 +165,9 @@ export default function ImportantComplaintSection() {
 
             {/* Mobile */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="w-full md:w-1/4 text-lg font-medium">মোবাইল নম্বর</label>
+              <label className="w-full md:w-1/4 text-lg font-medium">
+                মোবাইল নম্বর
+              </label>
               <input
                 type="tel"
                 value={formData.mobile}
@@ -168,12 +177,13 @@ export default function ImportantComplaintSection() {
                 disabled={formData.anonymous}
                 className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
               />
-              
             </div>
 
             {/* Area */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="w-full md:w-1/4 text-lg font-medium">এরিয়া / ওয়ার্ড</label>
+              <label className="w-full md:w-1/4 text-lg font-medium">
+                এরিয়া / ওয়ার্ড
+              </label>
               <input
                 type="text"
                 value={formData.area}
@@ -185,10 +195,12 @@ export default function ImportantComplaintSection() {
             </div>
 
             {/* Comment */}
-            <div>
-              <label className="text-lg font-medium mb-2 inline-block">
+            {/* Comment */}
+            <div className="flex flex-col md:flex-row gap-4 items-start">
+              <label className="w-full md:w-1/4 text-lg font-medium">
                 {typeOfSuggest}
               </label>
+
               <textarea
                 rows={6}
                 value={formData.comment}
@@ -196,13 +208,15 @@ export default function ImportantComplaintSection() {
                   setFormData({ ...formData, comment: e.target.value })
                 }
                 placeholder={`${typeOfSuggest} সংক্রান্ত বিস্তারিত লিখুন`}
-                className="w-full bg-transparent border border-white/70 rounded-lg px-4 py-3 resize-none focus:ring-2 focus:ring-yellow-400"
+                className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 resize-none focus:ring-2 focus:ring-yellow-400"
               />
             </div>
 
             {/* Upload */}
             <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="w-full md:w-1/4 text-lg font-medium">ছবি/ভিডিও</label>
+              <label className="w-full md:w-1/4 text-lg font-medium">
+                ছবি/ভিডিও
+              </label>
               <label className="cursor-pointer inline-flex items-center gap-3 bg-gray-200 text-black px-6 py-3 rounded-lg hover:bg-gray-300 transition">
                 Upload file
                 <input
@@ -290,7 +304,8 @@ export default function ImportantComplaintSection() {
             </p>
           </div>
         </div>
-      )}{/* ================= SUCCESS POPUP ================= */}
+      )}
+      {/* ================= SUCCESS POPUP ================= */}
       {successOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
           <div className="w-full max-w-2xl rounded-xl border border-white/20 bg-[#0b1f1f] p-10 text-center shadow-lg">
@@ -303,7 +318,11 @@ export default function ImportantComplaintSection() {
                 stroke="currentColor"
                 strokeWidth={2.5}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
 

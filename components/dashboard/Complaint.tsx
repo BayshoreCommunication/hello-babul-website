@@ -98,7 +98,7 @@ const Complaint = () => {
       <div className="bg-white rounded-lg shadow-sm p-8">
         <div className="flex items-center gap-3 mb-6">
           <Mail className="text-blue-600" size={24} />
-          <h2 className="text-2xl font-bold text-black">সাধারণ পরামর্শ</h2>
+          <h2 className="text-2xl font-bold text-black">সাধারণ অভিযোগ</h2>
         </div>
 
         {/* Error Message */}
@@ -116,7 +116,7 @@ const Complaint = () => {
           </div>
         ) : data.length === 0 ? (
           <div className="text-center py-12 text-gray-500">
-            <p>কোন সাধারণ পরামর্শ পাওয়া যায়নি</p>
+            <p>কোন সাধারণ অভিযোগ পাওয়া যায়নি</p>
           </div>
         ) : (
           <table className="w-full">
@@ -157,7 +157,7 @@ const Complaint = () => {
                     </span>
                   </td>
                   <td className="py-4 text-center space-x-3">
-                    <button 
+                    <button
                       className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50"
                       onClick={() => {
                         // Navigate to details page or open modal
@@ -168,7 +168,9 @@ const Complaint = () => {
                     </button>
                     <button
                       className={`px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-50 ${
-                        actionLoading === item._id ? "opacity-50 cursor-not-allowed" : ""
+                        actionLoading === item._id
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
                       }`}
                       onClick={() => {
                         setSelectedItem(item);
@@ -200,4 +202,3 @@ const Complaint = () => {
 };
 
 export default Complaint;
-

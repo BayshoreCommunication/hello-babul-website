@@ -52,20 +52,25 @@ const UrgentComplaint = () => {
         if (mounted) {
           if (response.success && response.data) {
             console.log(`Total suggestions fetched: ${response.data.length}`);
-            
+
             // Filter: Show ANY suggestion where typeOfSuggest is NOT "general"
             const urgentSuggestions = response.data.filter(
               (item: Suggestion) => {
                 const isUrgent = item.typeOfSuggest !== "general";
-                console.log(`ID: ${item._id}, Type: "${item.typeOfSuggest}", Is Urgent: ${isUrgent}`);
+                console.log(
+                  `ID: ${item._id}, Type: "${item.typeOfSuggest}", Is Urgent: ${isUrgent}`
+                );
                 return isUrgent;
               }
             );
-            
-            console.log(`Urgent suggestions found: ${urgentSuggestions.length}`);
+
+            console.log(
+              `Urgent suggestions found: ${urgentSuggestions.length}`
+            );
             setData(urgentSuggestions);
           } else {
-            const errorMsg = response.message || "API returned unsuccessful response";
+            const errorMsg =
+              response.message || "API returned unsuccessful response";
             console.error("API Error:", errorMsg, response);
             setError(`API Error: ${errorMsg}`);
           }
@@ -124,7 +129,7 @@ const UrgentComplaint = () => {
       <div className="bg-white rounded-lg shadow-sm p-8">
         <div className="flex items-center gap-3 mb-6">
           <Mail className="text-red-600" size={24} />
-          <h2 className="text-2xl font-bold text-black">জরুরি পরামর্শ</h2>
+          <h2 className="text-2xl font-bold text-black">জরুরি অভিযোগ</h2>
         </div>
 
         {/* Error Message */}
@@ -185,7 +190,7 @@ const UrgentComplaint = () => {
                     </span>
                   </td>
                   <td className="py-4 text-center space-x-3">
-                    <button 
+                    <button
                       className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50"
                       onClick={() => {
                         // Navigate to details page
@@ -196,7 +201,9 @@ const UrgentComplaint = () => {
                     </button>
                     <button
                       className={`px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-50 ${
-                        actionLoading === item._id ? "opacity-50 cursor-not-allowed" : ""
+                        actionLoading === item._id
+                          ? "opacity-50 cursor-not-allowed"
+                          : ""
                       }`}
                       onClick={() => {
                         setSelectedItem(item);

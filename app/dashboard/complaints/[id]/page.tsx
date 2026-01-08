@@ -22,14 +22,14 @@ interface PageProps {
 export default async function ComplaintDetailsPage({ params }: PageProps) {
   // Fetch suggestion data by ID - this automatically marks it as viewed
   let suggestionData;
-  
+
   try {
     const response = await getYourSuggestById(params.id);
-    
+
     if (!response.success) {
       notFound();
     }
-    
+
     suggestionData = response.data;
   } catch (error) {
     console.error("Error fetching suggestion details:", error);
@@ -55,7 +55,9 @@ export default async function ComplaintDetailsPage({ params }: PageProps) {
         <div className="flex items-center justify-between border-b border-black/10 pb-6 mb-6">
           <div className="flex items-center gap-3">
             <Mail className="text-blue-600" size={24} />
-            <h2 className="text-2xl font-bold text-black">সাধারণ পরামর্শ বিস্তারিত</h2>
+            <h2 className="text-2xl font-bold text-black">
+              সাধারণ অভিযোগ বিস্তারিত
+            </h2>
           </div>
           <div className="flex items-center gap-4">
             {suggestionData.viewed && (
@@ -109,7 +111,9 @@ export default async function ComplaintDetailsPage({ params }: PageProps) {
                 <div>
                   <p className="text-sm text-gray-500">পরামর্শের ধরণ</p>
                   <p className="text-lg font-semibold text-gray-800">
-                    {suggestionData.typeOfSuggest === "general" ? "সাধারণ" : suggestionData.typeOfSuggest}
+                    {suggestionData.typeOfSuggest === "general"
+                      ? "সাধারণ"
+                      : suggestionData.typeOfSuggest}
                   </p>
                 </div>
               </div>

@@ -38,17 +38,20 @@ const TopBar = () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Use the dashboard action instead of direct fetch
-        const response: DashboardOverviewResponse = await getDashboardOverview();
-        
+        const response: DashboardOverviewResponse =
+          await getDashboardOverview();
+
         if (mounted && response.success) {
           setOverview(response.data);
         }
       } catch (err) {
         console.error("Failed to fetch dashboard overview:", err);
         if (mounted) {
-          setError(err instanceof Error ? err.message : "Failed to load dashboard data");
+          setError(
+            err instanceof Error ? err.message : "Failed to load dashboard data"
+          );
         }
       } finally {
         if (mounted) {
@@ -67,37 +70,37 @@ const TopBar = () => {
   const stats = [
     {
       label: "সকল আবেদন",
-      value: loading ? "..." : (overview?.totalSubmissions ?? 0),
+      value: loading ? "..." : overview?.totalSubmissions ?? 0,
       icon: Mail,
       color: "bg-blue-50 text-blue-600",
     },
     {
       label: "মতামত",
-      value: loading ? "..." : (overview?.totalOpinions ?? 0),
+      value: loading ? "..." : overview?.totalOpinions ?? 0,
       icon: MessageSquare,
       color: "bg-purple-50 text-purple-600",
     },
     {
-      label: "সাধারণ পরামর্শ",
-      value: loading ? "..." : (overview?.generalSuggestions ?? 0),
+      label: "সাধারণ অভিযোগ",
+      value: loading ? "..." : overview?.generalSuggestions ?? 0,
       icon: Key,
       color: "bg-green-50 text-green-600",
     },
     {
-      label: "জরুরি পরামর্শ",
-      value: loading ? "..." : (overview?.emergencySuggestions ?? 0),
+      label: "জরুরি অভিযোগ",
+      value: loading ? "..." : overview?.emergencySuggestions ?? 0,
       icon: AlertCircle,
       color: "bg-red-50 text-red-600",
     },
     {
       label: "উন্নয়ন আইডিয়া",
-      value: loading ? "..." : (overview?.totalDevelopmentIdeas ?? 0),
+      value: loading ? "..." : overview?.totalDevelopmentIdeas ?? 0,
       icon: MapPin,
       color: "bg-amber-50 text-amber-600",
     },
     {
       label: "স্বেচ্ছাসেবক আবেদন",
-      value: loading ? "..." : (overview?.totalVolunteers ?? 0),
+      value: loading ? "..." : overview?.totalVolunteers ?? 0,
       icon: User,
       color: "bg-indigo-50 text-indigo-600",
     },
@@ -121,8 +124,8 @@ const TopBar = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-6 gap-4">
           {stats.map((stat, idx) => (
-            <div 
-              key={idx} 
+            <div
+              key={idx}
               className={`bg-white rounded-lg p-6 shadow-sm transition-opacity ${
                 loading ? "opacity-60" : "opacity-100"
               }`}
