@@ -110,7 +110,7 @@ export default function ImportantComplaintSection() {
         <div className="mx-auto max-w-[1200px]">
           <div className="rounded-2xl border border-orange-300 bg-[#FDF5E2] px-6 py-10 md:px-12 md:py-14 text-center">
             <h2 className="text-2xl md:text-[40px] font-semibold text-gray-900">
-              জরুরি অভিযোগ / পরামর্শ
+              জরুরি অভিযোগ
             </h2>
             <p className="mt-2 text-sm md:text-[20px] text-gray-700">
               জরুরি অভিযোগের জন্য নিচের বাটনে ক্লিক করুন
@@ -136,7 +136,7 @@ export default function ImportantComplaintSection() {
         <CustomModal
           isOpen={open}
           onClose={() => setOpen(false)}
-          title={`আপনার অভিযোগ/পরামর্শ: ${typeOfSuggest}`}
+          title="আপনার অভিযোগ"
         >
           <form
             onSubmit={handleSubmit}
@@ -168,6 +168,7 @@ export default function ImportantComplaintSection() {
                 disabled={formData.anonymous}
                 className="w-full md:flex-1 bg-transparent border border-white/70 rounded-lg px-4 py-3 focus:ring-2 focus:ring-yellow-400"
               />
+              
             </div>
 
             {/* Area */}
