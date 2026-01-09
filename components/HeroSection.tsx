@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import CustomModal from "./CustomModal";
 import toast, { Toaster } from "react-hot-toast";
+import { Phone } from 'lucide-react';
 
 export default function HeroSection() {
   const [open, setOpen] = useState(false);
@@ -94,63 +95,99 @@ export default function HeroSection() {
       {/* ================= HERO SECTION ================= */}
       <section className="w-full">
         <div className="bg-[#D13212] text-white">
-          <div className="max-w-[1640px] mx-auto md:flex flex-col md:flex-row items-center justify-evenly pt-8 pb-8 md:pb-0 md:pt-16 px-8 gap-6 hidden">
-            <Image
-              src="/image/hero/babul.png"
-              alt="Babul"
-              width={1000}
-              height={800}
-              className="rounded-lg object-cover w-[500px] h-auto"
-            />
-            <div className="flex flex-col items-center text-center">
-              <h1 className="text-[48px] md:text-[64px] font-bold flex items-center gap-2">
-                <Image
-                  src="/image/hero/icon.png"
-                  alt="icon"
-                  width={48}
-                  height={48}
-                />
-                Hello Babul
-              </h1>
-              <p className="mt-4 text-lg md:text-[48px] leading-none max-w-2xl">
-                আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
-              </p>
-              <p className="mt-4 md:text-[32px] text-[#FED525]">
-                -- শহিদুল ইসলাম বাবুল
-              </p>
-            </div>
-          </div>
+   {/* Desktop View */}
+    <div className="max-w-[1640px] mx-auto md:flex flex-col md:flex-row items-center justify-evenly pt-8 pb-8 md:pb-0 md:pt-16 px-8 gap-6 hidden">
+      <img
+        src="/image/hero/babul.png"
+        alt="Babul"
+        className="rounded-lg object-cover w-[500px] h-auto"
+      />
+      <div className="flex flex-col items-center text-center">
+        <h1 className="text-[48px] md:text-[64px] font-bold flex items-center  gap-2">
+          <img
+            src="/image/hero/icon.png"
+            alt="icon"
+            className="w-12 h-12"
+          />
+          Hello Babul
+        </h1>
+        <p className="mt-4 text-lg md:text-[48px] leading-none max-w-2xl">
+          আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
+        </p>
+        <p className="mt-4 md:text-[32px] text-[#FED525]">
+          -- শহিদুল ইসলাম বাবুল
+        </p>
+        
+        {/* Helpline Numbers */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
+          <a 
+            href="tel:01303284333" 
+            className="flex items-center bg-green-600 hover:text-black  gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FED525] transition-colors"
+           
+          >
+            <Phone className="w-5 h-5" />
+            01303-284333
+          </a>
+          <a 
+            href="tel:01726360600" 
+            className="flex items-center bg-green-600 hover:text-black gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FED525] transition-colors"
+           
+          >
+            <Phone className="w-5 h-5" />
+            01726-360600
+          </a>
+        </div>
+      </div>
+    </div>
 
-          {/* Mobile Section */}
-          <div className="max-w-[1640px] mx-auto md:hidden flex flex-col items-center justify-evenly pt-8 pb-8 px-8 gap-6">
-            <Image
-              src="/image/hero/babul-phone.png"
-              alt="Babul"
-              width={1000}
-              height={800}
-              className="rounded-lg object-cover w-[100%] h-auto"
-            />
-            <div className="flex flex-col items-center text-center">
-              <p className="mt-4 text-white text-xl">
-                অভিযোগ করুন, পরামর্শ দিন - পরিবর্তনে আপনার অংশগ্রহণই সবচেয়ে
-                শক্তিশালী শক্তি।আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
-              </p>
-              <p className="mt-4 text-[#FED525] text-xl">
-                -- শহিদুল ইসলাম বাবুল
-              </p>
-            </div>
-          </div>
+    {/* Mobile View */}
+    <div className="max-w-[1640px] mx-auto md:hidden flex flex-col items-center justify-evenly pt-8 pb-8 px-8 gap-6">
+      <img
+        src="/image/hero/babul-phone.png"
+        alt="Babul"
+        className="rounded-lg object-cover w-[100%] h-auto"
+      />
+      <div className="flex flex-col items-center text-center">
+        <p className="mt-4 text-white text-xl">
+          অভিযোগ করুন, পরামর্শ দিন - পরিবর্তনে আপনার অংশগ্রহণই সবচেয়ে
+          শক্তিশালী শক্তি।আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
+        </p>
+        <p className="mt-4 text-[#FED525] text-xl">
+          -- শহিদুল ইসলাম বাবুল
+        </p>
+        
+        {/* Helpline Numbers - Mobile */}
+        <div className="mt-6 flex flex-col items-center gap-3 w-full">
+          <a 
+            href="tel:01303284333" 
+            className="flex items-center bg-green-600 hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FED525] transition-colors"
+           
+          >
+            <Phone className="w-4 h-4" />
+            01303-284333
+          </a>
+          <a 
+            href="tel:01726360600" 
+            className="flex items-center bg-green-600 hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FED525] transition-colors"
+           
+          >
+            <Phone className="w-4 h-4" />
+            01726-360600
+          </a>
+        </div>
+      </div>
+    </div>
         </div>
 
         <div className="bg-[#018635] text-center px-6 py-10">
-          <p className="text-lg md:text-[40px] text-[#FED525] max-w-6xl mx-auto leading-none">
+          <p className="text-lg md:text-[40px] text-[#FDE047] max-w-6xl mx-auto leading-none">
             আপনার মতামত সরাসরি আমার টিমের কাছে পৌঁছাবে, প্রয়োজন হলে আমরা যোগাযোগ
             করব
           </p>
 
           <button
             onClick={() => setOpen(true)}
-            className="mt-6 bg-[#FED525] text-black font-semibold px-8 py-3 rounded-md hover:bg-yellow-300 transition"
+            className="mt-6 bg-[#FDE047] text-black font-semibold px-8 py-3 rounded-md hover:bg-yellow-300 transition"
           >
             অভিযোগ/পরামর্শ জানান
           </button>
@@ -247,9 +284,9 @@ export default function HeroSection() {
 
       {/* ================= SUCCESS POPUP ================= */}
       {successOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-50 flex items-center bg-green-600 hover:text-black justify-center px-4">
           <div className="w-full max-w-2xl rounded-xl border border-white/20 bg-[#0b1f1f] p-10 text-center shadow-lg">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-700">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-green-700">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-7 w-7 text-white"
@@ -266,7 +303,7 @@ export default function HeroSection() {
               </svg>
             </div>
 
-            <h2 className="mt-6 text-xl md:text-2xl font-semibold text-[#FED525]">
+            <h2 className="mt-6 text-xl md:text-2xl font-semibold text-[#FDE047]">
               ধন্যবাদ! আপনার অভিযোগ/পরামর্শ আমরা গ্রহণ করেছি।
             </h2>
             <p className="mt-3 text-sm md:text-base text-gray-200">

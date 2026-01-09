@@ -144,27 +144,27 @@ export default function OpinionSlider() {
             }}
           >
             {opinions.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div className="w-full bg-white h-[280px] border rounded-md p-6 flex flex-col text-center">
-                  <Image
-                    src={item.icon}
-                    alt={item.btn}
-                    width={48}
-                    height={48}
-                    className="mx-auto mb-4"
-                  />
-                  <p className="text-sm text-gray-600 flex-grow">{item.desc}</p>
-                  <button
-                    onClick={() => {
-                      setTypeOfOpinion(item.btn); // set typeOfOpinion
-                      setOpen(true);
-                    }}
-                    className="mt-6 py-2 font-semibold rounded text-white bg-[#31A3EA] hover:bg-blue-700 transition"
-                  >
-                    {item.btn}
-                  </button>
-                </div>
-              </SwiperSlide>
+              <SwiperSlide key={item.id} className="h-full">
+  <div className="w-full h-full bg-white h-[250px] border rounded-md p-6 flex flex-col text-center">
+    <Image
+      src={item.icon}
+      alt={item.btn}
+      width={48}
+      height={48}
+      className="mx-auto mb-4"
+    />
+    <p className="text-sm text-gray-600 flex-grow">{item.desc}</p>
+    <button
+      onClick={() => {
+        setTypeOfOpinion(item.btn); // set typeOfOpinion
+        setOpen(true);
+      }}
+      className="mt-2 py-2 font-semibold rounded text-white bg-[#31A3EA] hover:bg-blue-700 transition"
+    >
+      {item.btn}
+    </button>
+  </div>
+</SwiperSlide>
             ))}
           </Swiper>
         </div>
