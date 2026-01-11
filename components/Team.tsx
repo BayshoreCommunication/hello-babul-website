@@ -2,13 +2,12 @@
 
 import { useState, ChangeEvent, FormEvent, useRef } from "react";
 import CustomModal from "./CustomModal";
-import { FiCalendar } from "react-icons/fi";
 
 interface FormData {
   fullname: string;
   fathername: string;
   mothername: string;
-  dateofbirth: string;
+  dateofbirth: string; // YYYY-MM-DD
   mobile: string;
   area: string;
   education: string;
@@ -84,6 +83,10 @@ export default function Team() {
       } else {
         setFilePreview(null);
       }
+    } else if (name === "dateofbirth") {
+      // Ensure YYYY-MM-DD format
+      const formattedDate = value.split("T")[0];
+      setFormData((prev) => ({ ...prev, [name]: formattedDate }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -95,8 +98,13 @@ export default function Team() {
 
     try {
       const data = new FormData();
+
       Object.keys(formData).forEach((key) => {
-        const value = formData[key as keyof FormData];
+        let value = formData[key as keyof FormData];
+        if (key === "dateofbirth" && value) {
+          // Ensure YYYY-MM-DD format before submitting
+          value = (value as string).split("T")[0];
+        }
         if (value !== null) data.append(key, value as any);
       });
 
@@ -163,7 +171,11 @@ export default function Team() {
                 key={i}
                 className="border border-green-200 rounded-lg overflow-hidden bg-[#FFFDEA]"
               >
-                <img src={member.img} alt={member.name} className="p-8 pb-0 h-[300px] w-full object-top" />
+                <img
+                  src={member.img}
+                  alt={member.name}
+                  className="p-8 pb-0 h-[300px] w-full object-top"
+                />
                 <div className="p-4">
                   <h3 className="font-semibold text-lg text-gray-800">
                     {member.name}
@@ -213,21 +225,15 @@ export default function Team() {
                 <label className="md:w-1/4 text-lg">{field.label}</label>
 
                 {field.name === "dateofbirth" ? (
-                  <div className="relative w-full md:flex-1">
-                    <input
-                      type="date"
-                      name={field.name}
-                      ref={dobInputRef}
-                      value={formData.dateofbirth}
-                      onChange={handleChange}
-                      className="w-full bg-[#0b1f1f] border border-white/70 rounded-lg px-4 py-3 pr-10 text-white focus:ring-2 focus:ring-yellow-400"
-                      required
-                    />
-                    {/* <FiCalendar
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white cursor-pointer"
-                      onClick={() => dobInputRef.current?.showPicker?.()}
-                    /> */}
-                  </div>
+                  <input
+                    type="date"
+                    name={field.name}
+                    ref={dobInputRef}
+                    value={formData.dateofbirth}
+                    onChange={handleChange}
+                    className="w-full md:flex-1 bg-[#0b1f1f] border border-white/70 rounded-lg px-4 py-3 pr-10 text-white focus:ring-2 focus:ring-yellow-400"
+                    required
+                  />
                 ) : (
                   <input
                     type="text"
@@ -295,7 +301,7 @@ export default function Team() {
         </CustomModal>
       )}
 
-      {/* ================= SUCCESS POPUP (EXACT SAME) ================= */}
+      {/* ================= SUCCESS POPUP ================= */}
       {successOpen && (
         <CustomModal
           isOpen={successOpen}
@@ -312,11 +318,7 @@ export default function Team() {
                 stroke="currentColor"
                 strokeWidth={2.5}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             </div>
 

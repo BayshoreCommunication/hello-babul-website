@@ -67,11 +67,18 @@ export default function VolunteerApplicationDetailsPage() {
   if (!data) {
     notFound();
   }
-
+  const formatDate = (isoDate?: string) => {
+  if (!isoDate) return "-";
+  const d = new Date(isoDate); // convert string to Date object
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0"); // month is 0-indexed
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+};
   const infoList = [
     { icon: <User />, label: "পিতার নাম", value: data.fathername },
     { icon: <User />, label: "মাতার নাম", value: data.mothername },
-    { icon: <Calendar />, label: "জন্মতারিখ", value: data.dateofbirth },
+    { icon: <Calendar />, label: "জন্মতারিখ", value: formatDate(data.dateofbirth) },
     {
       icon: <GraduationCap />,
       label: "শিক্ষাগত যোগ্যতা",

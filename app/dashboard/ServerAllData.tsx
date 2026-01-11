@@ -1,15 +1,15 @@
 "use client";
 
-import {
-  deleteData,
-  getAllDashboardData,
-  type DataType,
-} from "@/app/actions/dashboard";
-import DeleteModal from "@/components/dashboard/DeleteModal";
+import { useState, useEffect } from "react";
 import { Loader2, Mail } from "lucide-react";
-import React, { useEffect, useState } from "react";
 import { LuEye } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
+import DeleteModal from "@/components/dashboard/DeleteModal";
+import {
+  getAllDashboardData,
+  deleteData,
+  type DataType,
+} from "@/app/actions/dashboard";
 
 // Type for dashboard data item
 interface DashboardItem {
@@ -19,9 +19,9 @@ interface DashboardItem {
   area: string;
   type: DataType;
   viewed: boolean;
+  dateofbirth?: string; // Added DOB field
   createdAt: string;
   updatedAt: string;
-  // Optional fields based on type
   comment?: string;
   typeOfOpinion?: string;
   typeOfSuggest?: string;
@@ -44,9 +44,8 @@ const ServerAllData: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedItem, setSelectedItem] = useState<DashboardItem | null>(null);
-  const [actionLoading, setActionLoading] = useState<string | null>(null); // Track which action is loading
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -78,39 +77,19 @@ const ServerAllData: React.FC = () => {
     fetchData(currentPage, searchTerm);
   }, [currentPage, searchTerm]);
 
-  // Get the appropriate route based on data type
-  const getDetailsRoute = (item: DashboardItem): string => {
-    const typeRoutes: Record<DataType, string> = {
-      opinion: `/dashboard/feedback/${item._id}`,
-      suggestion: `/dashboard/complaints/${item._id}`,
-      volunteer: `/dashboard/volunteer-application/${item._id}`,
-      developmentIdea: `/dashboard/development-ideas/${item._id}`,
-    };
-    return typeRoutes[item.type] || `/dashboard/${item.type}/${item._id}`;
-  };
-
-  // Handle delete
+  // Delete handler
   const handleDelete = async () => {
     if (!selectedItem) return;
 
     try {
       setActionLoading(selectedItem._id);
-
       const response = await deleteData(selectedItem._id, selectedItem.type);
 
       if (response.success) {
-        // Remove from local state
         setData((prev) => prev.filter((d) => d._id !== selectedItem._id));
-
-        // Update pagination total
         if (pagination) {
-          setPagination({
-            ...pagination,
-            total: pagination.total - 1,
-          });
+          setPagination({ ...pagination, total: pagination.total - 1 });
         }
-
-        console.log("Deleted:", selectedItem.fullname);
         setOpenDelete(false);
         setSelectedItem(null);
       }
@@ -122,18 +101,22 @@ const ServerAllData: React.FC = () => {
     }
   };
 
-  // Get type label in Bengali
-  const getTypeLabel = (type: DataType, item?: DashboardItem) => {
-    // For suggestions, show specific type based on typeOfSuggest
-    if (type === "suggestion" && item?.typeOfSuggest) {
-      if (item.typeOfSuggest === "general") {
-        return "সাধারণ অভিযোগ"; // General Suggestion
-      } else {
-        return "জরুরি অভিযোগ"; // Urgent Suggestion
-      }
-    }
+  const getDetailsRoute = (item: DashboardItem) => {
+    const typeRoutes: Record<DataType, string> = {
+      opinion: `/dashboard/feedback/${item._id}`,
+      suggestion: `/dashboard/complaints/${item._id}`,
+      volunteer: `/dashboard/volunteer-application/${item._id}`,
+      developmentIdea: `/dashboard/development-ideas/${item._id}`,
+    };
+    return typeRoutes[item.type] || `/dashboard/${item.type}/${item._id}`;
+  };
 
-    // Default labels for other types
+  const getTypeLabel = (type: DataType, item?: DashboardItem) => {
+    if (type === "suggestion" && item?.typeOfSuggest) {
+      return item.typeOfSuggest === "general"
+        ? "সাধারণ অভিযোগ"
+        : "জরুরি অভিযোগ";
+    }
     const labels: Record<DataType, string> = {
       volunteer: "স্বেচ্ছাসেবক",
       opinion: "মতামত",
@@ -142,6 +125,20 @@ const ServerAllData: React.FC = () => {
     };
     return labels[type] || type;
   };
+
+  // Format date to YYYY-MM-DD
+  // Format date to YYYY-MM-DD
+// Helper function to format ISO date to YYYY-MM-DD
+const formatDate = (isoDate?: string) => {
+  if (!isoDate) return "-";
+  const d = new Date(isoDate); // convert string to Date object
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0"); // month is 0-indexed
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+};
+  
+
 
   return (
     <div className="max-h-[68vh] h-full overflow-auto">
@@ -152,7 +149,6 @@ const ServerAllData: React.FC = () => {
             <h2 className="text-2xl font-bold text-black">সকল আবেদন</h2>
           </div>
 
-          {/* Search */}
           <div className="flex items-center gap-3">
             <input
               type="text"
@@ -160,14 +156,13 @@ const ServerAllData: React.FC = () => {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentPage(1); // Reset to first page on search
+                setCurrentPage(1);
               }}
               className="px-4 text-black py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
             <p className="font-semibold">Error:</p>
@@ -175,7 +170,6 @@ const ServerAllData: React.FC = () => {
           </div>
         )}
 
-        {/* Loading State */}
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="animate-spin text-blue-600" size={40} />
@@ -186,18 +180,20 @@ const ServerAllData: React.FC = () => {
           </div>
         ) : (
           <>
-            {/* Table */}
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200 text-left">
                   <th className="pb-3 text-sm font-medium text-[#949494]">
-                    আবেদনকারীর নাম
+                    নাম
                   </th>
                   <th className="pb-3 text-sm font-medium text-[#949494]">
-                    আবেদনকারীর নম্বর
+                    মোবাইল
                   </th>
                   <th className="pb-3 text-sm font-medium text-[#949494]">
-                    এলাকা / ওয়ার্ড
+                    এলাকা
+                  </th>
+                  <th className="pb-3 text-sm font-medium text-[#949494]">
+                    জন্ম তারিখ
                   </th>
                   <th className="pb-3 text-sm font-medium text-[#949494]">
                     ধরণ
@@ -217,6 +213,9 @@ const ServerAllData: React.FC = () => {
                     <td className="py-4 text-black">{item.mobile}</td>
                     <td className="py-4 text-black">{item.area}</td>
                     <td className="py-4 text-black">
+                      {formatDate(item.dateofbirth)}
+                    </td>
+                    <td className="py-4 text-black">
                       {getTypeLabel(item.type, item)}
                     </td>
                     <td className="py-4">
@@ -231,9 +230,9 @@ const ServerAllData: React.FC = () => {
                     <td className="py-4 text-center space-x-3">
                       <button
                         className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50 transition-colors"
-                        onClick={() => {
-                          window.location.href = getDetailsRoute(item);
-                        }}
+                        onClick={() =>
+                          (window.location.href = getDetailsRoute(item))
+                        }
                         title="বিস্তারিত দেখুন"
                       >
                         <LuEye size={16} />
@@ -258,7 +257,6 @@ const ServerAllData: React.FC = () => {
               </tbody>
             </table>
 
-            {/* Pagination */}
             {pagination && pagination.totalPages > 1 && (
               <div className="flex items-center justify-between mt-6">
                 <p className="text-sm text-gray-600">
@@ -286,7 +284,6 @@ const ServerAllData: React.FC = () => {
           </>
         )}
 
-        {/* Delete Modal */}
         <DeleteModal
           open={openDelete}
           onClose={() => {

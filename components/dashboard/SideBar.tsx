@@ -53,9 +53,9 @@ const handleLogout = async () => {
       <aside className="w-20 bg-white border-r border-gray-200 flex flex-col items-center py-6 space-y-8">
 
         {/* Logo */}
-        <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
+        <Link href="/dashboard" className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
           <Image src="/image/dn-logo.png" alt="logo" width={40} height={40} priority />
-        </div>
+        </Link>
 
         {/* Menu */}
         <nav className="flex-1 flex flex-col items-center space-y-6">
