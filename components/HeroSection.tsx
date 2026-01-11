@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import CustomModal from "./CustomModal";
 import toast, { Toaster } from "react-hot-toast";
-import { Phone } from 'lucide-react';
+import { Phone } from "lucide-react";
 
 export default function HeroSection() {
   const [open, setOpen] = useState(false);
@@ -95,88 +95,90 @@ export default function HeroSection() {
       {/* ================= HERO SECTION ================= */}
       <section className="w-full">
         <div className="bg-[#D13212] text-white">
-   {/* Desktop View */}
-    <div className="max-w-[1640px] mx-auto md:flex flex-col md:flex-row items-center justify-evenly pt-8 pb-8 md:pb-0 md:pt-16 px-8 gap-6 hidden">
-      <img
-        src="/image/hero/babul.png"
-        alt="Babul"
-        className="rounded-lg object-cover w-[500px] h-auto"
-      />
-      <div className="flex flex-col items-center text-center">
-        <h1 className="text-[48px] md:text-[64px] font-bold flex items-center  gap-2">
-          <img
-            src="/image/hero/icon.png"
-            alt="icon"
-            className="w-12 h-12"
-          />
-          Hello Babul
-        </h1>
-        <p className="mt-4 text-lg md:text-[48px] leading-none max-w-2xl">
-          আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
-        </p>
-        <p className="mt-4 md:text-[32px] text-[#FED525]">
-          -- শহিদুল ইসলাম বাবুল
-        </p>
-        
-        {/* Helpline Numbers */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
-          <a 
-            href="tel:01303284333" 
-            className="flex items-center bg-green-600 hover:text-black  gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FED525] transition-colors"
-           
-          >
-            <Phone className="w-5 h-5" />
-            01303-284333
-          </a>
-          <a 
-            href="tel:01726360600" 
-            className="flex items-center bg-green-600 hover:text-black gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FED525] transition-colors"
-           
-          >
-            <Phone className="w-5 h-5" />
-            01726-360600
-          </a>
-        </div>
-      </div>
-    </div>
+          {/* Desktop View */}
+          <div className="max-w-[1640px] mx-auto md:flex flex-col md:flex-row items-center justify-evenly pt-8 pb-8 md:pb-0 md:pt-16 px-8 gap-6 hidden">
+            <Image
+              src="/image/hero/babul.png"
+              alt="Babul"
+              width={500}
+              height={500}
+              className="rounded-lg object-cover w-[500px] h-auto"
+            />
+            <div className="flex flex-col items-center text-center">
+              <h1 className="text-[48px] md:text-[64px] font-bold flex items-center  gap-2">
+                <Image
+                  src="/image/hero/icon.png"
+                  alt="icon"
+                  width={60}
+                  height={60}
+                  className="w-12 h-12"
+                />
+                Hello Babul
+              </h1>
+              <p className="mt-4 text-lg md:text-[48px] leading-none max-w-2xl">
+                আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
+              </p>
+              <p className="mt-4 md:text-[32px] text-[#FED525]">
+                -- শহিদুল ইসলাম বাবুল
+              </p>
 
-    {/* Mobile View */}
-    <div className="max-w-[1640px] mx-auto md:hidden flex flex-col items-center justify-evenly pt-8 pb-8 px-8 gap-6">
-      <img
-        src="/image/hero/babul-phone.png"
-        alt="Babul"
-        className="rounded-lg object-cover w-[100%] h-auto"
-      />
-      <div className="flex flex-col items-center text-center">
-        <p className="mt-4 text-white text-xl">
-          অভিযোগ করুন, পরামর্শ দিন - পরিবর্তনে আপনার অংশগ্রহণই সবচেয়ে
-          শক্তিশালী শক্তি।আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
-        </p>
-        <p className="mt-4 text-[#FED525] text-xl">
-          -- শহিদুল ইসলাম বাবুল
-        </p>
-        
-        {/* Helpline Numbers - Mobile */}
-        <div className="mt-6 flex flex-col items-center gap-3 w-full">
-          <a 
-            href="tel:01303284333" 
-            className="flex items-center bg-green-600 hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FED525] transition-colors"
-           
-          >
-            <Phone className="w-4 h-4" />
-            01303-284333
-          </a>
-          <a 
-            href="tel:01726360600" 
-            className="flex items-center bg-green-600 hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FED525] transition-colors"
-           
-          >
-            <Phone className="w-4 h-4" />
-            01726-360600
-          </a>
-        </div>
-      </div>
-    </div>
+              {/* Helpline Numbers */}
+              <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
+                <a
+                  href="tel:01811405823"
+                  className="flex items-center bg-green-600 hover:text-black gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FED525] transition-colors"
+                >
+                  <Phone className="w-5 h-5" />
+                  01811-405823
+                </a>
+                <a
+                  href="tel:01711756610"
+                  className="flex items-center bg-green-600 hover:text-black gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FED525] transition-colors"
+                >
+                  <Phone className="w-5 h-5" />
+                  01711-756610
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile View */}
+          <div className="max-w-[1640px] mx-auto md:hidden flex flex-col items-center justify-evenly pt-8 pb-8 px-8 gap-6">
+            <Image
+              src="/image/hero/babul-phone.png"
+              alt="Babul"
+              width={300}
+              height={300}
+              className="rounded-lg object-cover w-[100%] h-auto"
+            />
+            <div className="flex flex-col items-center text-center">
+              <p className="mt-4 text-white text-xl">
+                অভিযোগ করুন, পরামর্শ দিন - পরিবর্তনে আপনার অংশগ্রহণই সবচেয়ে
+                শক্তিশালী শক্তি।আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
+              </p>
+              <p className="mt-4 text-[#FED525] text-xl">
+                -- শহিদুল ইসলাম বাবুল
+              </p>
+
+              {/* Helpline Numbers - Mobile */}
+              <div className="mt-6 flex flex-col items-center gap-3 w-full">
+                <a
+                  href="tel:01811405823"
+                  className="flex items-center bg-green-600 hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FED525] transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  01811-405823
+                </a>
+                <a
+                  href="tel:01711756610"
+                  className="flex items-center bg-green-600 hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FED525] transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  01711-756610
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="bg-[#018635] text-center px-6 py-10">
@@ -264,9 +266,11 @@ export default function HeroSection() {
             </label>
 
             {filePreview && (
-              <img
+              <Image
                 src={filePreview}
                 alt="preview"
+                width={500}
+                height={500}
                 className="w-32 h-32 object-cover rounded-lg border border-white/50"
               />
             )}
