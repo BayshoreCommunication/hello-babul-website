@@ -19,7 +19,7 @@ interface DashboardItem {
   area: string;
   type: DataType;
   viewed: boolean;
-  dateofbirth?: string; // Added DOB field
+  dateofbirth?: string;
   createdAt: string;
   updatedAt: string;
   comment?: string;
@@ -126,19 +126,15 @@ const ServerAllData: React.FC = () => {
     return labels[type] || type;
   };
 
-  // Format date to YYYY-MM-DD
-  // Format date to YYYY-MM-DD
-// Helper function to format ISO date to YYYY-MM-DD
-const formatDate = (isoDate?: string) => {
-  if (!isoDate) return "-";
-  const d = new Date(isoDate); // convert string to Date object
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0"); // month is 0-indexed
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-};
-  
-
+  // Format ISO date to YYYY-MM-DD
+  const formatDate = (isoDate?: string) => {
+    if (!isoDate) return "-";
+    const d = new Date(isoDate);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
 
   return (
     <div className="max-h-[68vh] h-full overflow-auto">
@@ -183,27 +179,13 @@ const formatDate = (isoDate?: string) => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200 text-left">
-                  <th className="pb-3 text-sm font-medium text-[#949494]">
-                    নাম
-                  </th>
-                  <th className="pb-3 text-sm font-medium text-[#949494]">
-                    মোবাইল
-                  </th>
-                  <th className="pb-3 text-sm font-medium text-[#949494]">
-                    এলাকা
-                  </th>
-                  <th className="pb-3 text-sm font-medium text-[#949494]">
-                    জন্ম তারিখ
-                  </th>
-                  <th className="pb-3 text-sm font-medium text-[#949494]">
-                    ধরণ
-                  </th>
-                  <th className="pb-3 text-sm font-medium text-[#949494]">
-                    স্ট্যাটাস
-                  </th>
-                  <th className="pb-3 text-sm font-medium text-[#949494] text-center">
-                    একশন
-                  </th>
+                  <th className="pb-3 text-sm font-medium text-[#949494]">নাম</th>
+                  <th className="pb-3 text-sm font-medium text-[#949494]">মোবাইল</th>
+                  <th className="pb-3 text-sm font-medium text-[#949494]">এলাকা</th>
+                  <th className="pb-3 text-sm font-medium text-[#949494]">জমা দেওয়ার তারিখ</th>
+                  <th className="pb-3 text-sm font-medium text-[#949494]">ধরণ</th>
+                  <th className="pb-3 text-sm font-medium text-[#949494]">স্ট্যাটাস</th>
+                  <th className="pb-3 text-sm font-medium text-[#949494] text-center">একশন</th>
                 </tr>
               </thead>
               <tbody>
@@ -212,12 +194,8 @@ const formatDate = (isoDate?: string) => {
                     <td className="py-4 text-black">{item.fullname}</td>
                     <td className="py-4 text-black">{item.mobile}</td>
                     <td className="py-4 text-black">{item.area}</td>
-                    <td className="py-4 text-black">
-                      {formatDate(item.dateofbirth)}
-                    </td>
-                    <td className="py-4 text-black">
-                      {getTypeLabel(item.type, item)}
-                    </td>
+                    <td className="py-4 text-black">{formatDate(item.createdAt)}</td>
+                    <td className="py-4 text-black">{getTypeLabel(item.type, item)}</td>
                     <td className="py-4">
                       <span
                         className={`font-semibold ${
@@ -230,18 +208,14 @@ const formatDate = (isoDate?: string) => {
                     <td className="py-4 text-center space-x-3">
                       <button
                         className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50 transition-colors"
-                        onClick={() =>
-                          (window.location.href = getDetailsRoute(item))
-                        }
+                        onClick={() => (window.location.href = getDetailsRoute(item))}
                         title="বিস্তারিত দেখুন"
                       >
                         <LuEye size={16} />
                       </button>
                       <button
                         className={`px-4 py-2 border border-red-500 text-red-500 rounded hover:bg-red-50 transition-colors ${
-                          actionLoading === item._id
-                            ? "opacity-50 cursor-not-allowed"
-                            : ""
+                          actionLoading === item._id ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                         onClick={() => {
                           setSelectedItem(item);
@@ -260,8 +234,7 @@ const formatDate = (isoDate?: string) => {
             {pagination && pagination.totalPages > 1 && (
               <div className="flex items-center justify-between mt-6">
                 <p className="text-sm text-gray-600">
-                  মোট {pagination.total} টি আইটেম, পৃষ্ঠা {pagination.page} /{" "}
-                  {pagination.totalPages}
+                  মোট {pagination.total} টি আইটেম, পৃষ্ঠা {pagination.page} / {pagination.totalPages}
                 </p>
                 <div className="flex gap-2">
                   <button
