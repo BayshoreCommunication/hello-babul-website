@@ -1,17 +1,15 @@
 import React from "react";
 import {
-  AlertCircle,
   User,
   Phone,
   MapPin,
   FileText,
-  Notebook,
   Mail,
   Eye,
+  Calendar,
 } from "lucide-react";
 import { getDevelopmentIdeaById } from "@/app/actions/submissions";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 
 interface PageProps {
   params: {
@@ -20,7 +18,6 @@ interface PageProps {
 }
 
 export default async function EmergencyReportDetail({ params }: PageProps) {
-  // Fetch suggestion data by ID - this automatically marks it as viewed
   let suggestionData;
 
   try {
@@ -48,8 +45,6 @@ export default async function EmergencyReportDetail({ params }: PageProps) {
     });
   };
 
-  console.log("suggestionData", suggestionData);
-
   return (
     <div className="max-h-[68vh] h-full overflow-auto bg-white py-6 px-4">
       <div className="px-6">
@@ -59,6 +54,7 @@ export default async function EmergencyReportDetail({ params }: PageProps) {
             <Mail className="text-blue-600" size={24} />
             <h2 className="text-2xl font-bold text-black">উন্নয়ন আইডিয়া</h2>
           </div>
+
           <div className="flex items-center gap-4">
             {suggestionData.viewed && (
               <div className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full">
@@ -72,12 +68,13 @@ export default async function EmergencyReportDetail({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="flex items-stretch gap-6 justify-stretch w-full">
+        <div className="flex items-stretch gap-6 w-full">
           {/* Personal Information */}
           <div className="bg-white rounded-lg border border-black/10 p-6 mb-6 max-w-[30%] w-full">
             <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
               ব্যক্তিগত তথ্য
             </h2>
+
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <User className="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" />
@@ -88,6 +85,7 @@ export default async function EmergencyReportDetail({ params }: PageProps) {
                   </p>
                 </div>
               </div>
+
               <div className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" />
                 <div>
@@ -97,6 +95,7 @@ export default async function EmergencyReportDetail({ params }: PageProps) {
                   </p>
                 </div>
               </div>
+
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" />
                 <div>
@@ -106,12 +105,24 @@ export default async function EmergencyReportDetail({ params }: PageProps) {
                   </p>
                 </div>
               </div>
+
               <div className="flex items-start gap-3">
                 <FileText className="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-sm text-gray-500">পরামর্শের ধরণ</p>
+                  <p className="text-sm text-gray-500">আইডিয়ার ধরণ</p>
                   <p className="text-lg font-semibold text-gray-800">
                     {suggestionData.typeOfIdea}
+                  </p>
+                </div>
+              </div>
+
+              {/* ✅ জমা দেওয়ার সময় */}
+              <div className="flex items-start gap-3">
+                <Calendar className="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-sm text-gray-500">জমা দেওয়ার সময়</p>
+                  <p className="text-sm font-medium text-gray-800">
+                    {formatDate(suggestionData.createdAt)}
                   </p>
                 </div>
               </div>
@@ -121,13 +132,12 @@ export default async function EmergencyReportDetail({ params }: PageProps) {
           {/* Suggestion Details */}
           <div className="bg-white rounded-lg border border-black/10 p-6 mb-6 w-full">
             <h2 className="text-xl font-bold text-gray-800 mb-4 border-b pb-2">
-              পরামর্শ বিবরণ
+              আইডিয়া বিবরণ
             </h2>
-            <div>
-              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                {suggestionData.comment}
-              </p>
-            </div>
+
+            <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+              {suggestionData.comment}
+            </p>
           </div>
         </div>
       </div>
