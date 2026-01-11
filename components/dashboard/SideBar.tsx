@@ -27,19 +27,25 @@ const SideBar = () => {
     { label: "স্বেচ্ছাসেবক আবেদন", href: "/dashboard/volunteer-application", icon: User, activeColor: "text-indigo-600" },
   ];
 
-  const handleLogout = async () => {
+const handleLogout = async () => {
   try {
     await fetch("https://hello-babul-backend.vercel.app/api/user/logout", {
       method: "POST",
-      credentials: "include", // REQUIRED for cookie
+      credentials: "include",
     });
-  } catch (error) {
-    console.error("Logout failed", error);
+  } catch (err) {
+    console.error("Logout failed", err);
   } finally {
-    // 🔥 replace instead of push
-    router.replace("/login");
+    // Remove localStorage login info
+    localStorage.removeItem("isLoggedIn");
+
+    // Force full page reload to /login
+    window.location.href = "/login"; // 🔥 use this instead of router.replace
   }
 };
+
+
+
 
 
   return (
