@@ -12,7 +12,7 @@ interface Suggestion {
   fullname: string;
   mobile: string;
   area: string;
-  typeOfSuggest: string;
+  typeOfOpinion: string;
   comment: string;
   viewed: boolean;
   createdAt: string;
@@ -91,6 +91,7 @@ const Feedback = () => {
     }
   };
   console.log("development data", data);
+  
   return (
     <div className="max-h-[68vh] h-full overflow-auto">
       <div className="bg-white rounded-lg shadow-sm p-8">
@@ -144,7 +145,8 @@ const Feedback = () => {
                   <td className="py-4 text-black">{item.fullname}</td>
                   <td className="py-4 text-black">{item.mobile}</td>
                   <td className="py-4 text-black">{item.area}</td>
-                  <td className="py-4 text-black">{item.typeOfSuggest}</td>
+                  <td className="py-4 text-black">{item.typeOfOpinion}</td>
+
                   <td className="py-4">
                     <span
                       className={`font-semibold ${

@@ -110,9 +110,9 @@ export default async function ComplaintDetailsPage({ params }: PageProps) {
                 <div>
                   <p className="text-sm text-gray-500">পরামর্শের ধরণ</p>
                   <p className="text-lg font-semibold text-gray-800">
-                    {suggestionData.typeOfSuggest === "general"
+                    {suggestionData.typeOfOpinion === "general"
                       ? "সাধারণ"
-                      : suggestionData.typeOfSuggest}
+                      : suggestionData.typeOfOpinion}
                   </p>
                 </div>
               </div>
