@@ -145,7 +145,7 @@ export default function OpinionSlider() {
           >
             {opinions.map((item) => (
               <SwiperSlide key={item.id} className="h-full">
-  <div className="w-full h-full bg-white h-[250px] border rounded-md p-6 flex flex-col text-center">
+  <div className="w-full h-full bg-white border rounded-md p-6 flex flex-col text-center">
     <Image
       src={item.icon}
       alt={item.btn}

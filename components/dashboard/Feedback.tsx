@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { LuEye } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import DeleteModal from "./DeleteModal";
-import { deleteYourSuggest, getYourSuggests } from "@/app/actions/submissions";
+import { deleteYourOpinion, getYourOpinions } from "@/app/actions/submissions";
 
 // Type for suggestion data
 interface Suggestion {
@@ -36,7 +36,7 @@ const Feedback = () => {
         setLoading(true);
         setError(null);
 
-        const response = await getYourSuggests({
+        const response = await getYourOpinions({
           limit: 100, // Get more to filter
         });
 
@@ -73,7 +73,7 @@ const Feedback = () => {
     try {
       setActionLoading(selectedItem._id);
 
-      const response = await deleteYourSuggest(selectedItem._id);
+      const response = await deleteYourOpinion(selectedItem._id);
 
       if (response.success) {
         // Remove from local state

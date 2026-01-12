@@ -1,4 +1,5 @@
-import { getYourSuggestById } from "@/app/actions/submissions";
+
+import { getYourOpinionById } from "@/app/actions/submissions";
 import {
   Calendar,
   Eye,
@@ -24,7 +25,7 @@ export default async function ComplaintDetailsPage({ params }: PageProps) {
   let suggestionData;
 
   try {
-    const response = await getYourSuggestById(params.id);
+    const response = await getYourOpinionById(params.id);
 
     if (!response.success) {
       notFound();
