@@ -157,7 +157,6 @@ export default function OpinionSlider() {
           >
             {opinions.map((item) => (
               <SwiperSlide key={item.id} className="h-full">
-<<<<<<< HEAD
   <div className="w-full h-full bg-white border rounded-md p-6 flex flex-col text-center">
     <Image
       src={item.icon}
@@ -178,28 +177,6 @@ export default function OpinionSlider() {
     </button>
   </div>
 </SwiperSlide>
-=======
-                <div className="w-full h-full bg-white h-[250px] border rounded-md p-6 flex flex-col text-center">
-                  <Image
-                    src={item.icon}
-                    alt={item.btn}
-                    width={48}
-                    height={48}
-                    className="mx-auto mb-4"
-                  />
-                  <p className="text-sm text-gray-600 flex-grow">{item.desc}</p>
-                  <button
-                    onClick={() => {
-                      setTypeOfOpinion(item.btn); // set typeOfOpinion
-                      setOpen(true);
-                    }}
-                    className="mt-2 py-2 font-semibold rounded text-white bg-[#31A3EA] hover:bg-blue-700 transition"
-                  >
-                    {item.btn}
-                  </button>
-                </div>
-              </SwiperSlide>
->>>>>>> 59799b16e6291c8e8f6c78fe0f955e182a0c030e
             ))}
           </Swiper>
         </div>
