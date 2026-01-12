@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const { email, password } = await req.json();
 
-  // .env থেকে email & password fetch
   const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
+  // check if env variables exist
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
     return NextResponse.json(
       { success: false, message: "Server login config missing" },
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     );
   }
 
-  // Validate login
+  // validate login
   if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
     return NextResponse.json(
       { success: false, message: "Invalid email or password" },
@@ -22,13 +22,13 @@ export async function POST(req: Request) {
     );
   }
 
-  // Login success
+  // success response
   const response = NextResponse.json({
     success: true,
     message: "Login successful",
   });
 
-  // Cookie set
+  // set httpOnly cookie
   response.cookies.set("auth_token", "secure_admin_token", {
     httpOnly: true,
     path: "/",
