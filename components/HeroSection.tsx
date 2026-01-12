@@ -150,11 +150,7 @@ export default function HeroSection() {
             />
             <div className="flex flex-col items-center text-center">
               <p className="mt-4 text-white text-xl">
-                অভিযোগ করুন, পরামর্শ দিন - পরিবর্তনে আপনার অংশগ্রহণই সবচেয়ে
-                শক্তিশালী শক্তি।আপনার কথা—সরাসরি বাবুল ভাইয়ের কাছে
-              </p>
-              <p className="mt-4 text-[#FED525] text-xl">
-                -- শহিদুল ইসলাম বাবুল
+                আপনার কথা—সরাসরি শহিদুল ইসলাম বাবুলের কাছে
               </p>
 
               {/* Helpline Numbers - Mobile */}
