@@ -58,6 +58,18 @@ const opinions = [
     icon: "/image/opinion/img8.png",
     btn: "ব্যক্তিগত গোপন অভিযোগ",
   },
+  {
+    id: 9,
+    desc: "নদী ভাঙ্গনের ফলে ক্ষতিগ্রস্ত পরিবার ও জমির তথ্য নিরাপদে গ্রহণ করা হবে। সংশ্লিষ্ট কর্তৃপক্ষের সঙ্গে সমন্বয় করে দ্রুত সহায়তা ও স্থায়ী সমাধানের উদ্যোগ নেওয়া হবে।",
+    icon: "/image/opinion/img9.png",
+    btn: "নদী ভাঙ্গন",
+  },
+  {
+    id: 10,
+    desc: "মাদক সংক্রান্ত তথ্য ও অভিযোগ সম্পূর্ণ গোপনীয়তার সঙ্গে গ্রহণ করা হবে। সমাজকে মাদকমুক্ত রাখতে প্রশাসনের সঙ্গে সমন্বয় করে কার্যকর ব্যবস্থা গ্রহণ করা হবে।",
+    icon: "/image/opinion/img10.png",
+    btn: "মাদক নির্মূল",
+  },
 ];
 
 export default function OpinionSlider() {
@@ -145,26 +157,26 @@ export default function OpinionSlider() {
           >
             {opinions.map((item) => (
               <SwiperSlide key={item.id} className="h-full">
-  <div className="w-full h-full bg-white h-[250px] border rounded-md p-6 flex flex-col text-center">
-    <Image
-      src={item.icon}
-      alt={item.btn}
-      width={48}
-      height={48}
-      className="mx-auto mb-4"
-    />
-    <p className="text-sm text-gray-600 flex-grow">{item.desc}</p>
-    <button
-      onClick={() => {
-        setTypeOfOpinion(item.btn); // set typeOfOpinion
-        setOpen(true);
-      }}
-      className="mt-2 py-2 font-semibold rounded text-white bg-[#31A3EA] hover:bg-blue-700 transition"
-    >
-      {item.btn}
-    </button>
-  </div>
-</SwiperSlide>
+                <div className="w-full h-full bg-white h-[250px] border rounded-md p-6 flex flex-col text-center">
+                  <Image
+                    src={item.icon}
+                    alt={item.btn}
+                    width={48}
+                    height={48}
+                    className="mx-auto mb-4"
+                  />
+                  <p className="text-sm text-gray-600 flex-grow">{item.desc}</p>
+                  <button
+                    onClick={() => {
+                      setTypeOfOpinion(item.btn); // set typeOfOpinion
+                      setOpen(true);
+                    }}
+                    className="mt-2 py-2 font-semibold rounded text-white bg-[#31A3EA] hover:bg-blue-700 transition"
+                  >
+                    {item.btn}
+                  </button>
+                </div>
+              </SwiperSlide>
             ))}
           </Swiper>
         </div>
