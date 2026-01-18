@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 export const metadata: Metadata = {
   title: "Hello Babul",
   description: "babul Website",
-  metadataBase: new URL("https://hellobabul.vercel.app/"),
+  metadataBase: new URL("https://www.shohidulislambabulbd.com"),
   alternates: {
     canonical: "/",
     languages: {
@@ -31,12 +31,12 @@ export default function RootLayout({
         <Providers>
           <main>{children}</main>
 
-           <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-          }}
-        />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 3000,
+            }}
+          />
         </Providers>
       </body>
     </html>
