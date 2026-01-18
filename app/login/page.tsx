@@ -53,7 +53,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0b1d1f] px-4">
-      <div className="w-full max-w-2xl rounded-lg border border-gray-600 overflow-hidden">
+      <div className="w-full max-w-2xl rounded-lg border border-gray-600 overflow-hidden shadow-lg">
         <div className="bg-green-700 py-3 text-center">
           <h2 className="text-yellow-300 text-xl font-semibold">ইউজার লগইন</h2>
         </div>
@@ -66,26 +66,26 @@ export default function LoginPage() {
           )}
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="col-span-1 text-white text-sm">ইমেইল</label>
+            <label className="col-span-1 text-white text-sm font-medium">ইমেইল</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="আপনার ইমেইল লিখুন"
-              className="col-span-3 w-full rounded-md border border-gray-400 bg-transparent px-4 py-2 text-white outline-none focus:border-blue-400"
+              className="col-span-3 w-full rounded-md border border-gray-400 bg-transparent px-4 py-2 text-white outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
             />
           </div>
 
           <div className="grid grid-cols-4 items-center gap-4">
-            <label className="col-span-1 text-white text-sm">পাসওয়ার্ড</label>
+            <label className="col-span-1 text-white text-sm font-medium">পাসওয়ার্ড</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="আপনার পাসওয়ার্ড লিখুন"
-              className="col-span-3 w-full rounded-md border border-gray-400 bg-transparent px-4 py-2 text-white outline-none focus:border-blue-400"
+              className="col-span-3 w-full rounded-md border border-gray-400 bg-transparent px-4 py-2 text-white outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
             />
           </div>
 

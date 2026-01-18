@@ -123,14 +123,14 @@ export default function HeroSection() {
               <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
                 <a
                   href="tel:01811405823"
-                  className="flex items-center bg-green-600 hover:text-black gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FED525] transition-colors"
+                  className="flex items-center bg-[#018635] hover:text-black gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FDE047] transition-colors"
                 >
                   <Phone className="w-5 h-5" />
                   01811-405823
                 </a>
                 <a
                   href="tel:01711756610"
-                  className="flex items-center bg-green-600 hover:text-black gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FED525] transition-colors"
+                  className="flex items-center bg-[#018635] hover:text-black gap-2 px-6 py-3 rounded-lg text-lg md:text-xl font-semibold text-white hover:bg-[#FDE047] transition-colors"
                 >
                   <Phone className="w-5 h-5" />
                   01711-756610
@@ -157,14 +157,14 @@ export default function HeroSection() {
               <div className="mt-6 flex flex-col items-center gap-3 w-full">
                 <a
                   href="tel:01811405823"
-                  className="flex items-center bg-green-600 hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FED525] transition-colors"
+                  className="flex items-center bg-[#018635] hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FDE047] transition-colors"
                 >
                   <Phone className="w-4 h-4" />
                   01811-405823
                 </a>
                 <a
                   href="tel:01711756610"
-                  className="flex items-center bg-green-600 hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FED525] transition-colors"
+                  className="flex items-center bg-[#018635] hover:text-black gap-2 px-5 py-2.5 rounded-lg w-fit text-base font-semibold text-white hover:bg-[#FDE047] transition-colors"
                 >
                   <Phone className="w-4 h-4" />
                   01711-756610
